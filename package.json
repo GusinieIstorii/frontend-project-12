@@ -4,8 +4,11 @@
   "description": "[![Actions Status](https://github.com/GusinieIstorii/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/GusinieIstorii/frontend-project-12/actions)",
   "main": "frontend/src/index.js",
   "scripts": {
+    "build": "npm run build --prefix frontend",
+    "start": "start-server -s ./frontend/build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "start-server -s ./frontend/build"
+    "postinstall": "cd frontend && npm ci"
+   
   },
   "author": "",
   "license": "ISC",
