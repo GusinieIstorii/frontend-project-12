@@ -28,9 +28,9 @@ const LoginForm = () => {
     setAuthFailed(false);
     console.log(values);
     try {
-      // const res = await axios.post(routes.loginPath(), values); 
-      const res = {};
-      res.data = {token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiO…QwN30.oN0HW5p7YnR48Yb0vZ61o83CpzL0gPj78DEI68Rgkq0', username: 'admin'};
+      const res = await axios.post(routes.loginPath(), values); 
+      // const res = {};
+      // res.data = {token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiO…QwN30.oN0HW5p7YnR48Yb0vZ61o83CpzL0gPj78DEI68Rgkq0', username: 'admin'};
       console.log(res.data);
       localStorage.setItem('userId', JSON.stringify(res.data));
       console.log(localStorage);
