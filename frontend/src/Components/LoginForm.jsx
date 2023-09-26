@@ -4,7 +4,8 @@ import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import AuthContext from '../Contexts/AuthContext';
-import routes from '../hooks/routes';
+import routes from '../routes';
+import Button from 'react-bootstrap/Button';
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string()
@@ -25,21 +26,19 @@ const LoginForm = () => {
 
   const submitForm = async (values, { setSubmitting }) => {
     setAuthFailed(false);
-    console.log('hi');
     console.log(values);
     try {
-      const res = await axios.post(routes.loginPath(), values);
-      console.log(res.data); // => { token: ..., username: 'admin' }
-      // localStorage.setItem('userId', JSON.stringify(res.data));
+      // const res = await axios.post(routes.loginPath(), values); 
+      const res = {};
+      res.data = {token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiO…QwN30.oN0HW5p7YnR48Yb0vZ61o83CpzL0gPj78DEI68Rgkq0', username: 'admin'};
+      console.log(res.data);
+      localStorage.setItem('userId', JSON.stringify(res.data));
+      console.log(localStorage);
       logIn();
-      // navigate('/');
+      navigate('/');
     } catch (err) {
       setSubmitting(false);
-      if (err.isAxiosError && err.response.status === 401) {
-        setAuthFailed(true);
-        // inputRef.current.select();
-        return;
-      }
+      setAuthFailed(true);
       throw err;
     }
   };
@@ -75,7 +74,8 @@ const LoginForm = () => {
             <div>{errors.username}</div>
           ) : null}
       </div>
-      <button type="submit">Войти</button>
+      {authFailed && <div>Неверные имя пользователя или пароль</div>}
+      <Button type="submit" variant="outline-primary">Войти</Button>
     </Form>
   )}
     </Formik>

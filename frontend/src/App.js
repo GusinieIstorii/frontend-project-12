@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PageOne from './Components/Pages';
 import { Page404 } from './Pages/Page404';
 import { LoginPage } from './Pages/LoginPage';
+import { ChatPage } from './Pages/ChatPage';
 import AuthContext from './Contexts/AuthContext';
 
 const AuthProvider = ({ children }) => {
@@ -28,7 +29,7 @@ function App() {
       <Routes>
         <Route path="*" element={<Page404 />} />
         <Route path="one" element={<PageOne />} />
-        <Route path="/" element={<PageOne />} />
+        <Route path="/" element={<ChatPage />} />
         <Route path="login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
