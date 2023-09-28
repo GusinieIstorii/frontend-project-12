@@ -9,7 +9,7 @@ const NewMsgForm = () => {
 
   const handleSendMsg = (e) => {
     e.preventDefault();
-    const socket = io('<http://localhost>');
+    const socket = io('<http://http://127.0.0.1>');
     const form = e.target;
     const value = form.querySelector("input").value;
     socket.emit("newMessage", { message: value });
