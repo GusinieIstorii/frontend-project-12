@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router-dom';
-import Component404 from '../Components/Component404';
+import Component404 from '../Components/Component404.jsx';
 
 export const Page404 = () => (
     <>

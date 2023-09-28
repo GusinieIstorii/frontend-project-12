@@ -1,9 +1,9 @@
 import { Link, Outlet } from "react-router-dom";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Channels from "../Components/Channels";
-import Messages from "../Components/Messages";
-import NewMsgForm from "../Components/NewMsgForm";
+import Channels from "../Components/Channels.jsx";
+import Messages from "../Components/Messages.jsx";
+import NewMsgForm from "../Components/NewMsgForm.jsx";
 // import LoginForm from '../Components/LoginForm';
 
 export const ChatPage = () => {
@@ -26,7 +26,7 @@ export const ChatPage = () => {
             <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
                 <b>Каналы</b>
                 <button type="button" className="p-0 text-primary btn btn-group-vertical">
-                <span class="visually-hidden">+</span>
+                <span className="visually-hidden">+</span>
                 </button>
             </div>
           <Channels />
