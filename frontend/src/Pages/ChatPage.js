@@ -12,7 +12,7 @@ export const ChatPage = () => {
   useEffect(() => {
     const userId = JSON.parse(localStorage.getItem("userId"));
     console.log(userId);
-    if (!userId.token) {
+    if (!userId) {
       navigate("/login");
     }
   }, [navigate]);

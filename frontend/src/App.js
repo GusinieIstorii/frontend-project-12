@@ -5,6 +5,7 @@ import { Page404 } from './Pages/Page404.js';
 import { LoginPage } from './Pages/LoginPage.js';
 import { ChatPage } from './Pages/ChatPage.js';
 import AuthContext from './Contexts/AuthContext.jsx';
+import ActiveChannelContext from './Contexts/ActiveChannelContext.jsx';
 import { Button, Navbar, Nav } from 'react-bootstrap';
 
 const AuthProvider = ({ children }) => {
@@ -16,9 +17,13 @@ const AuthProvider = ({ children }) => {
     setLoggedIn(false);
   };
 
+  const [activeChannel, setActiveChannel] = useState(1);
+
   return (
     <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+      <ActiveChannelContext.Provider value={{activeChannel, setActiveChannel}}>
       {children}
+      </ActiveChannelContext.Provider>
     </AuthContext.Provider>
   );
 };

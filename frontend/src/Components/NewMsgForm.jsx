@@ -1,23 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
-import io from "socket.io-client";
+import socket from "../socket";
+import ActiveChannelContext from "../Contexts/ActiveChannelContext";
+
 // import { sendMessage } from '../slices/messagesSlice.js';
 
 const NewMsgForm = () => {
-  const [name, setName] = useState("");
+  const [inputValue, setValue] = useState("");
+  const {activeChannel, setActiveChannel} = useContext(ActiveChannelContext);
   const dispatch = useDispatch();
 
   const handleSendMsg = (e) => {
     e.preventDefault();
-    const socket = io('<http://http://127.0.0.1>');
+    
     const form = e.target;
     const value = form.querySelector("input").value;
-    socket.emit("newMessage", { message: value });
+    const userId = JSON.parse(localStorage.getItem("userId"));
+    const {username} = userId;
+    socket.timeout(5000).emit("newMessage", { message: value, username, channelId: activeChannel }, (err) => {
+      if (err) {
+        alert('сервер тормозит или упал :С');
+      }
+    })
   };
 
-  // а в компоненте messages их нужно принять и показать
+  
 
-  const onChange = (e) => setName(e.target.value);
+  const onChange = (e) => setValue(e.target.value);
   
   return (
     <form action="" className="form-inline" onSubmit={handleSendMsg}>
@@ -26,7 +35,7 @@ const NewMsgForm = () => {
           type="text"
           data-testid="input"
           required
-          value={name}
+          value={inputValue}
           onChange={onChange}
         />
       </div>
