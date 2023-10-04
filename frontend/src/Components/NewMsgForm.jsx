@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import socket from "../socket";
 import ActiveChannelContext from "../Contexts/ActiveChannelContext";
 
@@ -9,6 +9,7 @@ const NewMsgForm = () => {
   const [inputValue, setValue] = useState("");
   const {activeChannel, setActiveChannel} = useContext(ActiveChannelContext);
   const dispatch = useDispatch();
+  const initialActiveChannel = useSelector((state) => state.activeChannel.activeChannelId);
 
   const handleSendMsg = (e) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ const NewMsgForm = () => {
     const value = form.querySelector("input").value;
     const userId = JSON.parse(localStorage.getItem("userId"));
     const {username} = userId;
-    socket.timeout(5000).emit("newMessage", { message: value, username, channelId: activeChannel }, (err) => {
+    socket.timeout(5000).emit("newMessage", { message: value, username, channelId: initialActiveChannel}, (err) => {
       if (err) {
         alert('сервер тормозит или упал :С');
       }

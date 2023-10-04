@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Channels from "../Components/Channels.jsx";
 import Messages from "../Components/Messages.jsx";
+import AddChanBut from "../Components/AddChanBut.jsx";
 import NewMsgForm from "../Components/NewMsgForm.jsx";
 // import LoginForm from '../Components/LoginForm';
 
@@ -19,27 +20,30 @@ export const ChatPage = () => {
 
   return (
     <>
-      <div>
+      <div className="container h-75 my-5 overflow-hidden rounded shadow">
         <div className="row h-100 bg-white flex-md-row">
-          <p>I'm a chat page</p>
-          <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
-            <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-                <b>Каналы</b>
-                <button type="button" className="p-0 text-primary btn btn-group-vertical">
-                <span className="visually-hidden">+</span>
-                </button>
-            </div>
-          <Channels />
+          <div className="col-2 border-end p-3 bg-light flex-column h-100 d-flex">
+            <b>Каналы</b> 
+            <AddChanBut />
+            <Channels />
           </div>
           <div className="col p-0 h-100">
-          <Messages />
-          <NewMsgForm />
+            <div className="d-flex flex-column h-100">
+              <div className="bg-light p-3 shadow-sm small">
+              <p className="m-0"><b># random</b></p>
+              <span className="text-muted">16 сообщений</span>
+              </div>
+            <div className="overflow-auto p-3">
+              <Messages />
+            </div>
+            <div className="mt-auto px-5 py-3">
+              <NewMsgForm />
+              </div>
+            </div>
           </div>
-          <Link to="/one">Page One</Link>
         </div>
       </div>
       <Outlet />
     </>
   );
 };
-

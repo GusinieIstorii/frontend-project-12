@@ -32,7 +32,7 @@ const channelsSlice = createSlice({
     name: 'channels',
     initialState: channelsAdapter.getInitialState({ loadingStatus: 'idle', error: null }), // По умолчанию: { ids: [], entities: {} }
     reducers: {
-      // addTask: tasksAdapter.addOne,
+      addChannel: channelsAdapter.addOne,
       // removeTask: tasksAdapter.removeOne,
     },
     extraReducers: (builder) => { // Для реакции на действия, происходящие в других слайсах

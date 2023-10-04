@@ -1,38 +1,43 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import ActiveChannelContext from '../Contexts/ActiveChannelContext';
-
+// import ActiveChannelContext from '../Contexts/ActiveChannelContext';
 import { fetchChannels, selectors } from '../slices/channelsSlice';
+import { changeActiveChannel } from '../slices/activeChannelSlice';
 
 const Channels = () => {
     const dispatch = useDispatch();
-    const channels = useSelector(selectors.selectAll);
+    
     useEffect(() => {
       dispatch(fetchChannels());
     }, [dispatch]);
 
-    const {activeChannel, setActiveChannel} = useContext(ActiveChannelContext); // но можно ли менять контекст из компонента? на этот контекст завязан App, newmessagesform, messages
-    
-    console.log(activeChannel);
-    
-    // const handleRemoveTask = (id) => {
-    //   dispatch(removeTask(id));
-    // };
+    const channels = useSelector(selectors.selectAll);
+
+    const [activeChannel, setActiveChannel] = useState(1);
+
+    const handleChannel = (e) => {
+      const newActiveChannelId = e.target.getAttribute('data-channelid');
+      dispatch(changeActiveChannel(newActiveChannelId));
+      setActiveChannel(newActiveChannelId);
+    };
   
     return channels && (
         <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
           {channels.map(({ id, name }) => {
-            if (id === activeChannel) {
-              console.log(name);
+            if (Number(id) === Number(activeChannel)) { //не понимаю в какой момент стейт решил что это строка
               return (
-                <li key={id} className="list-group-item d-flex">
-                  <b>{name}</b>
+                <li key={id} className="nav-item w-100">
+                  <button type='button' className='w-100 rounded-0 text-start btn btn-secondary'>
+                    <span className='me-1'>#</span>{name}
+                    </button>
                 </li>
               )
             } else {
               return (
-                <li key={id} className="list-group-item d-flex">
-                  <p>{name}</p>
+                <li key={id} className="nav-item w-100">
+                  <button type='button' className='w-100 rounded-0 text-start btn' onClick={handleChannel} data-channelid={id}>
+                    <span className='me-1'>#</span>{name}
+                    </button>
                 </li>
               )
             }
