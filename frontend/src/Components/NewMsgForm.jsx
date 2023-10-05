@@ -13,7 +13,6 @@ const NewMsgForm = () => {
 
   const handleSendMsg = (e) => {
     e.preventDefault();
-    
     const form = e.target;
     const value = form.querySelector("input").value;
     const userId = JSON.parse(localStorage.getItem("userId"));

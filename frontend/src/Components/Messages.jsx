@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import socket from "../socket";
 // import _ from "lodash";
-
-import { fetchMessages, selectors } from "../slices/messagesSlice";
+import { fetchMessages, selectors  } from "../slices/messagesSlice";
+import { actions as msgsActions } from '../slices/messagesSlice';
 
 const Messages = () => {
   const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const Messages = () => {
   const [prevMsgs, setPrevMsgs] = useState();
 
   useEffect(() => {
+    console.log(`cur chan ${curChannel}`)
     const allMessages = Object.values(allPrevMsgs);
     const messages = allMessages.filter(
       (message) => Number(message.channelId) === Number(curChannel)
@@ -31,8 +32,19 @@ const Messages = () => {
 
   socket.on("newMessage", (messageWithId) => {
     const newMessagesSet = [...newMessages, messageWithId];
-    console.log(newMessagesSet);
     setMessages(newMessagesSet);
+  });
+
+  socket.on("removeChannel", ({ id }) => {
+    dispatch(msgsActions.removeMessages(id));
+  //   const newChannelsSet = newChannels.filter(
+  //     (channel) => Number(channel.id) !== Number(id)
+  //   );
+  //   setChannels(newChannelsSet);
+  //   if (Number(id) === Number(activeChannel)) {
+  //     setActiveChannel(1);
+  //     dispatch(changeActiveChannel(1));
+  //   }
   });
 
   return (

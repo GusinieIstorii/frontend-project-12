@@ -42,7 +42,11 @@ const messagesSlice = createSlice({
     initialState: messagesAdapter.getInitialState({ loadingStatus: 'idle', error: null }), // По умолчанию: { ids: [], entities: {} }
     reducers: {
       // addTask: tasksAdapter.addOne,
-      // removeTask: tasksAdapter.removeOne,
+      removeMessages: (state, {payload}) => {
+        const channelId = payload;
+        const restEntities = Object.values(state.entities).filter((e) => e.channelId !== channelId);
+        messagesAdapter.setAll(state, restEntities);
+      },
     },
     extraReducers: (builder) => { // Для реакции на действия, происходящие в других слайсах
       builder
