@@ -1,27 +1,26 @@
 import React, { useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import socket from "../socket";
-import ActiveChannelContext from "../Contexts/ActiveChannelContext";
+// import socket from "../socket";
+// import ActiveChannelContext from "../Contexts/ActiveChannelContext";
+import { actions as messagesActions } from '../slices/messagesSlice';
+import { sendMessage, getNewMessage  } from "../slices/messagesSlice";
 
 // import { sendMessage } from '../slices/messagesSlice.js';
 
 const NewMsgForm = () => {
   const [inputValue, setValue] = useState("");
-  const {activeChannel, setActiveChannel} = useContext(ActiveChannelContext);
+  // const {activeChannel, setActiveChannel} = useContext(ActiveChannelContext);
   const dispatch = useDispatch();
   const initialActiveChannel = useSelector((state) => state.activeChannel.activeChannelId);
 
-  const handleSendMsg = (e) => {
+  const handleSendMsg = async(e) => {
     e.preventDefault();
     const form = e.target;
     const value = form.querySelector("input").value;
     const userId = JSON.parse(localStorage.getItem("userId"));
     const {username} = userId;
-    socket.timeout(5000).emit("newMessage", { message: value, username, channelId: initialActiveChannel}, (err) => {
-      if (err) {
-        alert('сервер тормозит или упал :С');
-      }
-    })
+    dispatch(sendMessage({message: value, username, channelId: initialActiveChannel}));
+    dispatch(getNewMessage());
   };
 
   

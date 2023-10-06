@@ -1,4 +1,5 @@
 import axios from "axios";
+import socket from "../socket.js";
 
 import {
   createSlice,
@@ -26,19 +27,51 @@ export const fetchChannels = createAsyncThunk(
   }
 );
 
+export const addChannel = createAsyncThunk(
+  "channels/addChannel",
+  async (channel) => {
+    await socket.timeout(5000).emit("newChannel", channel, (err) => {
+      if (err) {
+        alert("сервер тормозит или упал :С");
+      }
+    });
+  }
+);
+
+export const getNewChannel = createAsyncThunk(
+  "channels/getNewChannel",
+  async (_, { getState, dispatch }) => {
+     await socket.on("newChannel", (channeleWithId) => {
+      dispatch({ type: "channels/saveNewChannel", payload: channeleWithId });
+    });
+  }
+);
+
 const channelsAdapter = createEntityAdapter(); // набор готовых редьюсеров и селекторов для основных операций над сущностями
 
 const channelsSlice = createSlice({
     name: 'channels',
     initialState: channelsAdapter.getInitialState({ loadingStatus: 'idle', error: null }), // По умолчанию: { ids: [], entities: {} }
     reducers: {
-      addChannel: channelsAdapter.addOne,
+      saveNewChannel: (state, { payload }) => {
+        console.log(payload);
+        channelsAdapter.addOne(state, payload);
+      },
+      // addChannel: channelsAdapter.addOne, БЫЛО!
       // removeTask: tasksAdapter.removeOne,
     },
     extraReducers: (builder) => { // Для реакции на действия, происходящие в других слайсах
       builder
         .addCase(fetchChannels.fulfilled, channelsAdapter.addMany)
-        // .addCase(addTask.fulfilled, (state, action) => {
+        
+    },
+  })
+
+export const { actions } = channelsSlice;
+export const selectors = channelsAdapter.getSelectors((state) => state.channels);
+export default channelsSlice.reducer;
+
+// .addCase(addTask.fulfilled, (state, action) => {
         //   // Добавляем задачу
         //   console.log(action);
         //   tasksAdapter.addOne(state, action.payload);
@@ -52,9 +85,3 @@ const channelsSlice = createSlice({
         //   state.loadingStatus = 'idle';
         //   state.error = null;
         // });
-    },
-  })
-
-export const { actions } = channelsSlice;
-export const selectors = channelsAdapter.getSelectors((state) => state.channels);
-export default channelsSlice.reducer;
