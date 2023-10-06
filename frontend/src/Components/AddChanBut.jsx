@@ -1,30 +1,30 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectors } from "../slices/channelsSlice";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import socket from "../socket";
+import { addChannel, getNewChannel  } from "../slices/channelsSlice";
 
 const AddChanBut = () => {
+  const dispatch = useDispatch();
 
-    const [channelNames, setChannelNames] = useState([]);
-    const [authFailed, setAuthFailed] = useState(false);
+  const [authFailed, setAuthFailed] = useState(false);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const channels = useSelector(selectors.selectAll);
-  const initialChannelsNames = channels.map((channel) => channel.name);
+  const channelsNames = channels.map((channel) => channel.name);
   
   const submitForm = async (values, { setSubmitting }) => {
     setAuthFailed(false);
     try {
-      socket.emit("newChannel", { name: values.newChannelName });
-      const newChannelNames = [...channelNames, values.newChannelName];
-      setChannelNames(newChannelNames);
+      dispatch(addChannel({ name: values.newChannelName }));
+      dispatch(getNewChannel());
       handleClose();
     } catch (err) {
       setSubmitting(false);
@@ -35,8 +35,7 @@ const AddChanBut = () => {
 
   const LoginSchema = Yup.object().shape({
     newChannelName: Yup.string()
-      .notOneOf(channelNames, "такое имя уже есть")
-      .notOneOf(initialChannelsNames, "такое имя уже есть")
+      .notOneOf(channelsNames, "такое имя уже есть")
       .required("обязательное поле"),
   });
 

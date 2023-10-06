@@ -47,6 +47,46 @@ export const getNewChannel = createAsyncThunk(
   }
 );
 
+export const emitRemoveChan = createAsyncThunk(
+  "channels/emitRemoveChan",
+  async (channel) => {
+    await socket.timeout(5000).emit("removeChannel", channel, (err) => {
+      if (err) {
+        alert("сервер тормозит или упал :С");
+      }
+    });
+  }
+);
+
+export const subRemoveChan = createAsyncThunk(
+  "channels/subRemoveChan",
+  async (_, { getState, dispatch }) => {
+     await socket.on("removeChannel", (channel) => {
+      dispatch({ type: "channels/removeChannel", payload: channel.id });
+    });
+  }
+);
+
+export const emitRenameChan = createAsyncThunk(
+  "channels/emitRenameChan",
+  async (channel) => {
+    await socket.timeout(5000).emit("renameChannel", channel, (err) => {
+      if (err) {
+        alert("сервер тормозит или упал :С");
+      }
+    });
+  }
+);
+
+export const subRenameChan = createAsyncThunk(
+  "channels/subRenameChan",
+  async (_, { getState, dispatch }) => {
+     await socket.on("renameChannel", (channelWithNewName) => {
+      dispatch({ type: "channels/renameChannel", payload: {id: channelWithNewName.id, changes: channelWithNewName} });
+    });
+  }
+);
+
 const channelsAdapter = createEntityAdapter(); // набор готовых редьюсеров и селекторов для основных операций над сущностями
 
 const channelsSlice = createSlice({
@@ -54,8 +94,14 @@ const channelsSlice = createSlice({
     initialState: channelsAdapter.getInitialState({ loadingStatus: 'idle', error: null }), // По умолчанию: { ids: [], entities: {} }
     reducers: {
       saveNewChannel: (state, { payload }) => {
-        console.log(payload);
         channelsAdapter.addOne(state, payload);
+      },
+      removeChannel: (state, { payload}) => {
+        channelsAdapter.removeOne(state, payload);
+      },
+      renameChannel: (state, { payload }) => {
+        console.log(payload);
+        channelsAdapter.updateOne(state, payload);
       },
       // addChannel: channelsAdapter.addOne, БЫЛО!
       // removeTask: tasksAdapter.removeOne,

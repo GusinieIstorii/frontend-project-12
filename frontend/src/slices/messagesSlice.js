@@ -6,6 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import routes from "../routes.js";
 import socket from "../socket.js";
+import { actions as channelsActions } from "./channelsSlice.js";
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem("userId"));
@@ -74,18 +75,26 @@ const messagesSlice = createSlice({
       console.log(payload);
       messagesAdapter.addOne(state, payload);
     },
-    removeMessages: (state, { payload }) => {
+    // removeMessages: (state, { payload }) => { 
+    //   const channelId = payload;
+    //   const restEntities = Object.values(state.entities).filter(
+    //     (e) => e.channelId !== channelId
+    //   );
+    //   messagesAdapter.setAll(state, restEntities);
+    // },
+  },
+
+  extraReducers: (builder) => {
+    // Для реакции на действия, происходящие в других слайсах
+    builder.addCase(fetchMessages.fulfilled, messagesAdapter.addMany)
+    .addCase(channelsActions.removeChannel, (state, {payload}) => {
+      console.log(`extra reducer ${payload}`);
       const channelId = payload;
       const restEntities = Object.values(state.entities).filter(
         (e) => e.channelId !== channelId
       );
       messagesAdapter.setAll(state, restEntities);
-    },
-  },
-
-  extraReducers: (builder) => {
-    // Для реакции на действия, происходящие в других слайсах
-    builder.addCase(fetchMessages.fulfilled, messagesAdapter.addMany);
+    });
   },
 });
 

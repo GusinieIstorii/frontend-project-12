@@ -29,10 +29,6 @@ const Messages = () => {
     setMsgsCurChan(messages);
   }, [curChannel, allMessages]);
 
-  socket.on("removeChannel", ({ id }) => {
-    dispatch(msgsActions.removeMessages(id));
-  });
-
   return (
     <div>
       {msgsCurChan &&

@@ -9,36 +9,27 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
-import SplitButton from "react-bootstrap/SplitButton";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { sortBy } from "lodash";
+import { actions as channelsActions } from '../slices/channelsSlice.js';
+import { emitRemoveChan, subRemoveChan, emitRenameChan, subRenameChan  } from "../slices/channelsSlice";
 
 const Channels = () => {
   const dispatch = useDispatch();
-  dispatch(fetchChannels());
-
-  const channelsFetched = useSelector(selectors.selectAll);
-
-  const [activeChannel, setActiveChannel] = useState(1);
-
-  const [newChannels, setChannels] = useState([]);
-
   useEffect(() => {
-    setChannels(channelsFetched);
-  }, [channelsFetched]);
+    dispatch(fetchChannels());
+  }, [dispatch]);
 
-  socket.on("newChannel", (channelwithId) => {
-    const newChannelsSet = [...newChannels, channelwithId];
-    dispatch(changeActiveChannel(channelwithId.id));
-    setChannels(newChannelsSet);
-    setActiveChannel(channelwithId.id);
-  });
+  const channels = useSelector(selectors.selectAll);
+
+  const activeChannel = useSelector((state) =>
+    Number(state.activeChannel.activeChannelId)
+  );
 
   const handleChannel = (e) => {
     const newActiveChannelId = e.target.getAttribute("data-channelid");
     dispatch(changeActiveChannel(newActiveChannelId));
-    setActiveChannel(newActiveChannelId);
   };
 
   // delete channel modal 
@@ -55,20 +46,13 @@ const Channels = () => {
   };
 
   const removeChannel = () => {
-    socket.emit("removeChannel", { id: channelToEdit });
-    handleCloseDelete();
-  };
-
-  socket.on("removeChannel", ({ id }) => {
-    const newChannelsSet = newChannels.filter(
-      (channel) => Number(channel.id) !== Number(id)
-    );
-    setChannels(newChannelsSet);
-    if (Number(id) === Number(activeChannel)) {
-      setActiveChannel(1);
+    dispatch(emitRemoveChan({ id: channelToEdit }));
+    dispatch(subRemoveChan());
+    if (Number(activeChannel) === Number(channelToEdit)) {
       dispatch(changeActiveChannel(1));
     }
-  });
+    handleCloseDelete();
+  };
 
   //  rename modal
   const [showRename, setShowRename] = useState(false);
@@ -82,7 +66,7 @@ const Channels = () => {
     setShowRename(true);
   }
 
-  const channelNames = newChannels.map((channel) => channel.name);
+  const channelNames = channels.map((channel) => channel.name);
   const LoginSchema = Yup.object().shape({
     channelRename: Yup.string()
       .notOneOf(channelNames, "такое имя уже есть")
@@ -93,10 +77,8 @@ const Channels = () => {
     setAuthFailed(false);
     try {
       console.log(values);
-      socket.emit('renameChannel', { id: channelToEdit, name: values.channelRename});
-      // socket.emit("newChannel", { name: values.newChannelName });
-      // const newChannelNames = [...channelNames, values.newChannelName];
-      // setChannelNames(newChannelNames);
+      dispatch(emitRenameChan({ id: channelToEdit, name: values.channelRename}));
+      dispatch(subRenameChan());
       console.log('submitted');
       handleRenameClose();
     } catch (err) {
@@ -105,13 +87,6 @@ const Channels = () => {
       throw err;
     }
   };
-
-  socket.on('renameChannel', (renamedChan) => {
-    const filteredChannels = newChannels.filter((channel) => channel.id !== renamedChan.id);
-    const allChannels = sortBy([...filteredChannels, renamedChan], 'id');
-    setChannels(allChannels);
-  });
-  // 
 
   
   const renderDropdown = (id) => {
@@ -153,10 +128,10 @@ const Channels = () => {
   };
 
   return (
-    channelsFetched && (
+    channels && (
       <>
         <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-          {renderChannels(newChannels)}
+          {renderChannels(channels)}
         </ul>
 
         <Modal show={showDelete} onHide={handleCloseDelete} centered>
