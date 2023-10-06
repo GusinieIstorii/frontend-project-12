@@ -3,10 +3,10 @@ import LoginForm from '../Components/LoginForm.jsx';
 
 export const LoginPage = () => (
     <>
-    <div>
+    <div className='container'>
     <LoginForm />
       <div>
-        <Link to="/one">Page One</Link>
+        Нет аккаунта?<Link to="/signup">Регистрация</Link>
       </div>
   </div>
   <Outlet />

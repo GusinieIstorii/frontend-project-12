@@ -67,7 +67,7 @@ const LoginForm = () => {
           className="form-control"
         />
         {errors.password && touched.password ? (
-            <div>{errors.username}</div>
+            <div>{errors.password}</div>
           ) : null}
       </div>
       {authFailed && <div>Неверные имя пользователя или пароль</div>}

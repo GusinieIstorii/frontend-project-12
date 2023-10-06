@@ -5,11 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { actions as messagesActions } from '../slices/messagesSlice';
 import { sendMessage, getNewMessage  } from "../slices/messagesSlice";
 
-// import { sendMessage } from '../slices/messagesSlice.js';
-
 const NewMsgForm = () => {
   const [inputValue, setValue] = useState("");
-  // const {activeChannel, setActiveChannel} = useContext(ActiveChannelContext);
   const dispatch = useDispatch();
   const initialActiveChannel = useSelector((state) => state.activeChannel.activeChannelId);
 
