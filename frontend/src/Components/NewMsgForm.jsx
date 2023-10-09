@@ -4,16 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 // import ActiveChannelContext from "../Contexts/ActiveChannelContext";
 import { actions as messagesActions } from '../slices/messagesSlice';
 import { sendMessage, getNewMessage  } from "../slices/messagesSlice";
+import profanityFilter from "../profanityFilter";
+
 
 const NewMsgForm = () => {
   const [inputValue, setValue] = useState("");
   const dispatch = useDispatch();
   const initialActiveChannel = useSelector((state) => state.activeChannel.activeChannelId);
 
-  const handleSendMsg = async(e) => {
+  const handleSendMsg = (e) => {
     e.preventDefault();
     const form = e.target;
-    const value = form.querySelector("input").value;
+    const value = profanityFilter(form.querySelector("input").value);
     const userId = JSON.parse(localStorage.getItem("userId"));
     const {username} = userId;
     dispatch(sendMessage({message: value, username, channelId: initialActiveChannel}));
