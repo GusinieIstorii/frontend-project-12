@@ -4,14 +4,29 @@ import socket from "../socket";
 // import _ from "lodash";
 import { fetchMessages, selectors  } from "../slices/messagesSlice";
 import { actions as msgsActions } from '../slices/messagesSlice';
-// START EXPERIMENTS
+import { toast } from 'react-toastify';
+import { useTranslation } from "react-i18next";
 
 const Messages = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    dispatch(fetchMessages());
-  }, [dispatch]);
+    try {
+      dispatch(fetchMessages());
+    } catch(err) {
+      toast.error(t('networkError'), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }
+  }, [dispatch, t]);
 
   const allMessages = useSelector(selectors.selectAll);
   const curChannel = useSelector((state) =>

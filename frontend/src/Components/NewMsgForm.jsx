@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { actions as messagesActions } from '../slices/messagesSlice';
 import { sendMessage, getNewMessage  } from "../slices/messagesSlice";
 import profanityFilter from "../profanityFilter";
+import { useTranslation } from "react-i18next";
 
 
 const NewMsgForm = () => {
   const [inputValue, setValue] = useState("");
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const initialActiveChannel = useSelector((state) => state.activeChannel.activeChannelId);
 
@@ -35,6 +37,7 @@ const NewMsgForm = () => {
           required
           value={inputValue}
           onChange={onChange}
+          placeholder={t('chat.inputMsg')}
         />
       </div>
       <input

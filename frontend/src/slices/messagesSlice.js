@@ -7,7 +7,7 @@ import {
 import routes from "../routes.js";
 import socket from "../socket.js";
 import { actions as channelsActions } from "./channelsSlice.js";
-import { toast } from 'react-toastify';
+
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem("userId"));
@@ -28,16 +28,7 @@ export const fetchMessages = createAsyncThunk(
     console.log(response.data);
     return response.data.messages;
     } catch(err) {
-      toast.error('Данные не загружены', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        });
+      throw err;
     }
     
   }

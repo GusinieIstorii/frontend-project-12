@@ -1,6 +1,5 @@
 import axios from "axios";
 import socket from "../socket.js";
-import { toast } from 'react-toastify';
 
 import {
   createSlice,
@@ -27,16 +26,7 @@ export const fetchChannels = createAsyncThunk(
       });
       return response.data.channels;
     } catch(err) {
-      toast.error('Данные не загружены', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        });
+      throw err;
     }
   }
 );

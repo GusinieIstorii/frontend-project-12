@@ -9,9 +9,11 @@ import { addChannel, getNewChannel  } from "../slices/channelsSlice";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import notify from "../notify";
+import { useTranslation } from "react-i18next";
 
 const AddChanBut = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [authFailed, setAuthFailed] = useState(false);
   const [show, setShow] = useState(false);
@@ -38,8 +40,8 @@ const AddChanBut = () => {
 
   const LoginSchema = Yup.object().shape({
     newChannelName: Yup.string()
-      .notOneOf(channelsNames, "такое имя уже есть")
-      .required("обязательное поле"),
+      .notOneOf(channelsNames, t('chat.nameShouldBeUnique'))
+      .required(t('chat.requiredFiled')),
   });
 
   return (
@@ -51,10 +53,9 @@ const AddChanBut = () => {
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Добавить канал</Modal.Title>
+          <Modal.Title>{t('chat.addChannel')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Woohoo, you are reading this text in a modal!
           <Formik
             initialValues={{ newChannelName: "" }}
             validationSchema={LoginSchema}
@@ -63,7 +64,9 @@ const AddChanBut = () => {
             {({ errors, touched }) => (
               <Form>
                 <div className="form-group">
-                  <label htmlFor="newChannelName">newChannelName</label>
+                  <label 
+                  htmlFor="newChannelName"
+                  className="visually-hidden">{t('chat.channelName')}</label>
                   <Field
                     type="text"
                     name="newChannelName"
@@ -74,12 +77,12 @@ const AddChanBut = () => {
                   ) : null}
                 </div>
 
-                {authFailed && <div>Такой канал уже есть, придумай еще</div>}
+                {/* {authFailed && <div>{t('chat.nameShouldBeUnique')}</div>} */}
                 <Button variant="secondary" onClick={handleClose}>
-                  Отменить
+                {t('chat.cancel')}
                 </Button>
                 <Button type="submit" variant="outline-primary">
-                  Отправить
+                {t('chat.send')}
                 </Button>
               </Form>
             )}

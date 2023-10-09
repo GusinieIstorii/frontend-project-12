@@ -6,7 +6,9 @@ import * as Yup from 'yup';
 import AuthContext from '../Contexts/AuthContext';
 import routes from '../routes';
 import Button from 'react-bootstrap/Button';
+import { useTranslation } from 'react-i18next';
 
+// seems to be deleted
 const LoginSchema = Yup.object().shape({
   username: Yup.string()
     .min(2, 'Минимум 2 буквы')
@@ -19,6 +21,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
+  const { t } = useTranslation();
   const { loggedIn, logIn, logOut } = useContext(AuthContext);
   const [authFailed, setAuthFailed] = useState(false);
   const location = useLocation();
@@ -41,37 +44,33 @@ const LoginForm = () => {
 
   return(
   <>
-  <h1>Войти</h1>
+  <h1>{t('loginForm.login')}</h1>
     <Formik
       initialValues={{ username: "", password: "" }}
-      validationSchema={LoginSchema}
+      // validationSchema={LoginSchema}
       onSubmit={submitForm}>
         {({ errors, touched }) => (
     <Form>
       <div className="form-group">
-        <label htmlFor="username">Ваш ник</label>
+        <label htmlFor={t('loginForm.username')}>Ваш ник</label>
         <Field
           type="text"
           name="username"
           className="form-control"
+          placeholder={t('loginForm.username')}
         />
-        {errors.username && touched.username ? (
-            <div>{errors.username}</div>
-          ) : null}
       </div>
       <div className="form-group">
-        <label htmlFor="password">Пароль</label>
+        <label htmlFor="password">{t('loginForm.password')}</label>
         <Field
           type="password"
           name="password"
           className="form-control"
+          placeholder={t('loginForm.username')}
         />
-        {errors.password && touched.password ? (
-            <div>{errors.password}</div>
-          ) : null}
       </div>
-      {authFailed && <div>Неверные имя пользователя или пароль</div>}
-      <Button type="submit" variant="outline-primary">Войти</Button>
+      {authFailed && <div>{t('loginForm.loginError')}</div>}
+      <Button type="submit" variant="outline-primary">{t('loginForm.login')}</Button>
     </Form>
   )}
     </Formik>

@@ -17,12 +17,29 @@ import { emitRemoveChan, subRemoveChan, emitRenameChan, subRenameChan  } from ".
 import { ToastContainer } from 'react-toastify';
 import notify from "../notify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from "react-i18next";
+import { toast } from 'react-toastify';
 
 const Channels = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchChannels());
+    try {
+      dispatch(fetchChannels());
+    } catch(err) {
+      toast.error(t('networkError'), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }
+    
   }, [dispatch]);
+  const { t} = useTranslation();
 
   const channels = useSelector(selectors.selectAll);
 
@@ -55,7 +72,7 @@ const Channels = () => {
       dispatch(changeActiveChannel(1));
     }
     handleCloseDelete();
-    notify('Канал удален');
+    notify(t('chat.channelDeleted'));
   };
 
   //  rename modal
@@ -73,8 +90,8 @@ const Channels = () => {
   const channelNames = channels.map((channel) => channel.name);
   const LoginSchema = Yup.object().shape({
     channelRename: Yup.string()
-      .notOneOf(channelNames, "такое имя уже есть")
-      .required("обязательное поле"),
+      .notOneOf(channelNames, t('chat.nameShouldBeUnique'))
+      .required(t('chat.requiredFiled')),
   });
 
   
@@ -87,7 +104,7 @@ const Channels = () => {
       dispatch(subRenameChan());
       console.log('submitted');
       handleRenameClose();
-      notify('Канал переименован');
+      notify(t('chat.channelRenamed'));
     } catch (err) {
       setSubmitting(false);
       setAuthFailed(true);
@@ -97,16 +114,18 @@ const Channels = () => {
 
   
   const renderDropdown = (id) => {
+    
+
     return (
       <>
         <Dropdown.Toggle split id="dropdown-split-basic" />
 
         <Dropdown.Menu>
           <Dropdown.Item onClick={handleShowDelete} data-channelid={id}>
-            Удалить
+            {t('chat.delete')}
           </Dropdown.Item>
           <Dropdown.Item onClick={handleShowRename} data-channelid={id}>
-            Переименовать
+          {t('chat.rename')}
           </Dropdown.Item>
         </Dropdown.Menu>
       </>
@@ -144,16 +163,16 @@ const Channels = () => {
 
         <Modal show={showDelete} onHide={handleCloseDelete} centered>
           <Modal.Header closeButton>
-            <Modal.Title>Удалить канал</Modal.Title>
+            <Modal.Title>{t('chat.deleteChannel')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Уверены?
+          {t('chat.sure')}
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseDelete}>
-                Отменить
+              {t('chat.cancel')}
               </Button>
               <Button variant="danger" onClick={removeChannel}>
-                Удалить
+              {t('chat.delete')}
               </Button>
             </Modal.Footer>
           </Modal.Body>
@@ -161,7 +180,7 @@ const Channels = () => {
 
         <Modal show={showRename} onHide={handleRenameClose} centered>
           <Modal.Header closeButton>
-            <Modal.Title>Переименовать канал</Modal.Title>
+            <Modal.Title>{t('chat.renameChannel')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
           <Formik
@@ -172,7 +191,8 @@ const Channels = () => {
             {({ errors, touched }) => (
               <Form>
                 <div className="form-group">
-                  <label htmlFor="channelRename">channelRename</label>
+                  <label htmlFor="channelRename" className="visually-hidden">
+                  {t('chat.channelName')}</label>
                   <Field
                     type="text"
                     name="channelRename"
@@ -183,12 +203,12 @@ const Channels = () => {
                   ) : null}
                 </div>
 
-                {authFailed && <div>Такой канал уже есть, придумай еще</div>}
+                {/* {authFailed && <div>Такой канал уже есть, придумай еще</div>} */}
                 <Button variant="secondary" onClick={handleRenameClose}>
-                  Отменить
+                {t('chat.cancel')}
                 </Button>
                 <Button type="submit" variant="outline-primary" onSubmit={submitForm}>
-                  Отправить
+                {t('chat.send')}
                 </Button>
               </Form>
             )}

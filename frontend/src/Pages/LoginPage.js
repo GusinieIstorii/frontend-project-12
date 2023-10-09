@@ -1,15 +1,19 @@
 import { Link, Outlet } from 'react-router-dom';
 import LoginForm from '../Components/LoginForm.jsx';
+import { useTranslation } from 'react-i18next';
 
-export const LoginPage = () => (
-    <>
+export const LoginPage = () => {
+  const { t } = useTranslation();
+
+ return (
+  <>
     <div className='container'>
     <LoginForm />
       <div>
-        Нет аккаунта?<Link to="/signup">Регистрация</Link>
+        {t('loginForm.notHaveAccount')}<Link to="/signup">{t('loginForm.registration')}</Link>
       </div>
   </div>
   <Outlet />
     </>
-  
-);
+ )
+ };
