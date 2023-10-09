@@ -5,8 +5,10 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import socket from "../socket";
 import { addChannel, getNewChannel  } from "../slices/channelsSlice";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import notify from "../notify";
 
 const AddChanBut = () => {
   const dispatch = useDispatch();
@@ -20,12 +22,13 @@ const AddChanBut = () => {
   const channels = useSelector(selectors.selectAll);
   const channelsNames = channels.map((channel) => channel.name);
   
-  const submitForm = async (values, { setSubmitting }) => {
+  const submitForm = (values, { setSubmitting }) => {
     setAuthFailed(false);
     try {
       dispatch(addChannel({ name: values.newChannelName }));
       dispatch(getNewChannel());
       handleClose();
+      notify('Канал создан');
     } catch (err) {
       setSubmitting(false);
       setAuthFailed(true);
@@ -44,6 +47,7 @@ const AddChanBut = () => {
       <Button variant="primary" onClick={handleShow}>
         Add channel
       </Button>
+      <ToastContainer />
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>

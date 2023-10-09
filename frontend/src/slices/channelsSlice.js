@@ -1,5 +1,6 @@
 import axios from "axios";
 import socket from "../socket.js";
+import { toast } from 'react-toastify';
 
 import {
   createSlice,
@@ -20,10 +21,23 @@ export const fetchChannels = createAsyncThunk(
   "channels/fetchChannels",
   async () => {
     const header = getAuthHeader();
-    const response = await axios.get(routes.dataPath(), {
-      headers: header,
-    });
-    return response.data.channels;
+    try {
+      const response = await axios.get(routes.dataPath(), {
+        headers: header,
+      });
+      return response.data.channels;
+    } catch(err) {
+      toast.error('Данные не загружены', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }
   }
 );
 

@@ -14,6 +14,9 @@ import * as Yup from "yup";
 import { sortBy } from "lodash";
 import { actions as channelsActions } from '../slices/channelsSlice.js';
 import { emitRemoveChan, subRemoveChan, emitRenameChan, subRenameChan  } from "../slices/channelsSlice";
+import { ToastContainer } from 'react-toastify';
+import notify from "../notify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Channels = () => {
   const dispatch = useDispatch();
@@ -52,6 +55,7 @@ const Channels = () => {
       dispatch(changeActiveChannel(1));
     }
     handleCloseDelete();
+    notify('Канал удален');
   };
 
   //  rename modal
@@ -73,6 +77,8 @@ const Channels = () => {
       .required("обязательное поле"),
   });
 
+  
+
   const submitForm = async (values, { setSubmitting }) => {
     setAuthFailed(false);
     try {
@@ -81,6 +87,7 @@ const Channels = () => {
       dispatch(subRenameChan());
       console.log('submitted');
       handleRenameClose();
+      notify('Канал переименован');
     } catch (err) {
       setSubmitting(false);
       setAuthFailed(true);
@@ -133,6 +140,7 @@ const Channels = () => {
         <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
           {renderChannels(channels)}
         </ul>
+        <ToastContainer />
 
         <Modal show={showDelete} onHide={handleCloseDelete} centered>
           <Modal.Header closeButton>

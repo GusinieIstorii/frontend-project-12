@@ -7,6 +7,7 @@ import {
 import routes from "../routes.js";
 import socket from "../socket.js";
 import { actions as channelsActions } from "./channelsSlice.js";
+import { toast } from 'react-toastify';
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem("userId"));
@@ -19,12 +20,26 @@ const getAuthHeader = () => {
 export const fetchMessages = createAsyncThunk(
   "messages/fetchMessages",
   async () => {
-    const header = getAuthHeader();
+    try{
+      const header = getAuthHeader();
     const response = await axios.get(routes.dataPath(), {
       headers: header,
     });
     console.log(response.data);
     return response.data.messages;
+    } catch(err) {
+      toast.error('Данные не загружены', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }
+    
   }
 );
 
