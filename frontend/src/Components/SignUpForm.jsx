@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import AuthContext from "../Contexts/AuthContext";
 import routes from "../routes";
 import Button from "react-bootstrap/Button";
+import { useTranslation } from "react-i18next";
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string()
@@ -19,6 +20,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const SignUpForm = () => {
+  const { t } = useTranslation();
   const { loggedIn, logIn, logOut } = useContext(AuthContext);
   const [authFailed, setAuthFailed] = useState(false);
   const location = useLocation();
@@ -43,7 +45,7 @@ const SignUpForm = () => {
 
   return (
     <>
-      <h1>Регистрация</h1>
+      <h1>{t('key')}</h1>
       <Formik
         initialValues={{ username: "", password: "", passwordConfirmation: "" }}
         validationSchema={LoginSchema}
@@ -76,7 +78,7 @@ const SignUpForm = () => {
                 <div>{errors.passwordConfirmation}</div>
               ) : null}
             </div>
-            {authFailed && <div>Неверные имя пользователя или пароль</div>}
+            {authFailed && <div>Такой пользователь уже существует</div>}
             <Button type="submit" variant="outline-primary">
               Зарегестрироваться
             </Button>

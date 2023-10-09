@@ -9,6 +9,7 @@ import AuthContext from './Contexts/AuthContext.jsx';
 import { Button, Navbar, Nav } from 'react-bootstrap';
 import { Link, Outlet } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
+import i18next from './i118next.js';
 
 
 
@@ -60,7 +61,9 @@ const AuthButton = () => {
 // };
 
 function App() {
+  
   return (
+
     <AuthProvider>
     <BrowserRouter>
     <div className='vh-100 bg-light'>
@@ -80,6 +83,7 @@ function App() {
     
     </BrowserRouter>
     </AuthProvider>
+
   );
 }
 
