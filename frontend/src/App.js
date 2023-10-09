@@ -9,7 +9,9 @@ import AuthContext from './Contexts/AuthContext.jsx';
 import { Button, Navbar, Nav } from 'react-bootstrap';
 import { Link, Outlet } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
 import i18next from './i118next.js';
+import { Provider, ErrorBoundary } from '@rollbar/react'; 
 
 
 
@@ -60,10 +62,17 @@ const AuthButton = () => {
 //   );
 // };
 
+
+const rollbarConfig = {
+  accessToken: 'a7b665e36dda4509af0a6193e4761ffa',
+  environment: 'testenv',
+};
+
 function App() {
   
   return (
-
+<Provider config={rollbarConfig}>
+      <ErrorBoundary>
     <AuthProvider>
     <BrowserRouter>
     <div className='vh-100 bg-light'>
@@ -83,7 +92,8 @@ function App() {
     
     </BrowserRouter>
     </AuthProvider>
-
+    </ErrorBoundary>
+    </Provider>
   );
 }
 
