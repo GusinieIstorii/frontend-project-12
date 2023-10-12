@@ -24,6 +24,7 @@ export default {
         username: "Ваш ник",
         password: "Пароль",
         login: "Войти",
+        haveAccount: "Есть аккаунт?",
         notHaveAccount: "Нет аккаунта?",
         registration: "Регистрация",
         loginError: "Неверные имя пользователя или пароль",
@@ -44,6 +45,7 @@ export default {
         renameChannel: "Переименовать канал",
         channelDeleted: "Канал удален",
         channelRenamed: "Канал переименован",
+        channelAdded: "Канал создан",
         msgs: {
             msg_zero: "сообщений",
             msg_one: "сообщение",

@@ -78,7 +78,6 @@ const messagesSlice = createSlice({
     //   });
     // },
     saveNewMessage: (state, { payload }) => {
-      console.log(payload);
       messagesAdapter.addOne(state, payload);
     },
     // removeMessages: (state, { payload }) => { 

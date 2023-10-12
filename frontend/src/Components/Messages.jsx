@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import socket from "../socket";
 // import _ from "lodash";
@@ -6,6 +6,23 @@ import { fetchMessages, selectors  } from "../slices/messagesSlice";
 import { actions as msgsActions } from '../slices/messagesSlice';
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
+
+class Message extends React.Component {
+  constructor(props) {
+    super(props);
+    this.msgEl = React.createRef();
+  }
+
+  componentDidMount() {
+    (this.msgEl.current).scrollIntoView(false);
+  }
+
+  render() {
+    return <div ref={this.msgEl} key={this.props.id} className="text-break mb-2">
+    <b>{this.props.username}</b>: {this.props.message}
+  </div>
+  }
+}
 
 const Messages = () => {
   const dispatch = useDispatch();
@@ -46,12 +63,18 @@ const Messages = () => {
 
   return (
     <div>
-      {msgsCurChan &&
+      {/* {msgsCurChan &&
         msgsCurChan.map(({ id, message, username }) => (
           <div key={id} className="text-break mb-2">
             <b>{username}</b>: {message}
           </div>
-        ))}
+        ))
+        } */}
+        {msgsCurChan &&
+        msgsCurChan.map(({ id, message, username }) => (
+          <Message message={message} id={id} username={username} key={id}/>
+        ))
+        }
     </div>
   );
 };
