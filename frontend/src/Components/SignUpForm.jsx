@@ -9,6 +9,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useTranslation } from "react-i18next";
 import * as formik from "formik";
+import InputGroup from 'react-bootstrap/InputGroup';
 
 const SignUpForm = () => {
   const { t } = useTranslation();
@@ -16,8 +17,8 @@ const SignUpForm = () => {
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string()
-      .min(3, t("signUpForm.min3symbols"))
-      .max(20, t("signUpForm.max20symbols"))
+      .min(3, t("signUpForm.min3max20symbols"))
+      .max(20, t("signUpForm.min3max20symbols"))
       .required(t("signUpForm.requiredFiled")),
     password: Yup.string()
       .min(6, t("signUpForm.min6symbols"))
@@ -56,13 +57,14 @@ const SignUpForm = () => {
         onSubmit={submitForm}
       >
         {({ handleSubmit, handleChange, values, errors, touched }) => (
-          <Form noValidate onSubmit={handleSubmit}>
+          <Form  noValidate onSubmit={handleSubmit}>
             <h1 className="mb-3 text-center">{t("signUpForm.header")}</h1>
 
             <Form.Group
               controlId="validationFormik101"
               className="position-relative mb-3"
             >
+              
               <Form.Label className="visually-hidden">
                 {t("signUpForm.username")}
               </Form.Label>
@@ -73,12 +75,13 @@ const SignUpForm = () => {
                 onChange={handleChange}
                 isInvalid={errors.username && touched.username}
                 placeholder={t("signUpForm.username")}
-                autoFocus
+                // autoFocus
                 className="p-3"
               />
               <Form.Control.Feedback type="invalid" tooltip>
                 {errors.username}
               </Form.Control.Feedback>
+            
             </Form.Group>
             <Form.Group
               controlId="validationFormik102"
