@@ -55,8 +55,9 @@ const SignUpForm = () => {
         initialValues={{ username: "", password: "", passwordConfirmation: "" }}
         validationSchema={LoginSchema}
         onSubmit={submitForm}
+        validateOnChange={true}
       >
-        {({ handleSubmit, handleChange, values, errors, touched }) => (
+        {({ handleSubmit, handleChange, values, errors, touched, handleBlur }) => (
           <Form  noValidate onSubmit={handleSubmit}>
             <h1 className="mb-3 text-center">{t("signUpForm.header")}</h1>
 
@@ -74,6 +75,7 @@ const SignUpForm = () => {
                 value={values.username}
                 onChange={handleChange}
                 isInvalid={errors.username && touched.username}
+                onBlur={handleBlur}
                 placeholder={t("signUpForm.username")}
                 // autoFocus
                 className="p-3"
@@ -98,6 +100,7 @@ const SignUpForm = () => {
                 isInvalid={errors.password && touched.password}
                 placeholder={t("signUpForm.password")}
                 className="p-3"
+                onBlur={handleBlur}
               />
               <Form.Control.Feedback type="invalid" tooltip>
                 {errors.password}
@@ -121,6 +124,7 @@ const SignUpForm = () => {
                 }
                 placeholder={t("signUpForm.confirmPassword")}
                 className="p-3"
+                onBlur={handleBlur}
               />
               <Form.Control.Feedback type="invalid" tooltip>
                 {errors.passwordConfirmation}
