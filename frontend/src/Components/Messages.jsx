@@ -18,7 +18,7 @@ class Message extends React.Component {
   }
 
   render() {
-    return <div ref={this.msgEl} key={this.props.id} className="text-break mb-2" aria-label='Новое сообщение'>
+    return <div ref={this.msgEl} key={this.props.id} className="text-break mb-2">
     <b>{this.props.username}</b>: {this.props.message}
   </div>
   }

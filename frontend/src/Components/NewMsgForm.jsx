@@ -43,7 +43,7 @@ const NewMsgForm = () => {
   const onChange = (e) => setValue(e.target.value);
 
   return (
-    <form action="" className="border rounded-2" onSubmit={handleSendMsg}>
+    <form action="" className="border rounded-2" onSubmit={handleSendMsg} aria-label='Новое сообщение'>
       <div class="input-group">
         <input
           type="text"
