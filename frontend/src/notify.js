@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-const notify = (text) => toast(`🦄 ${text}`, {
+const notify = (text) => toast(text, {
     position: "top-right",
     autoClose: 5000,
     hideProgressBar: false,
