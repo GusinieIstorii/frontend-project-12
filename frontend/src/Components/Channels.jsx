@@ -125,7 +125,7 @@ const Channels = () => {
       <>
         <Dropdown.Toggle
           split
-          id="dropdown-split-basic"
+          id="Управление каналом"
           className="btn-secondary btn-light"
           data-text="Управление каналом"
         />
