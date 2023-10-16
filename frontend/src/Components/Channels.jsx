@@ -127,7 +127,7 @@ const Channels = () => {
           split
           id="dropdown-split-basic"
           className="btn-secondary btn-light"
-          text="Управление каналом"
+          data-text="Управление каналом"
         />
 
         <Dropdown.Menu>
@@ -216,6 +216,7 @@ const Channels = () => {
                       onChange={handleChange}
                       isInvalid={errors.channelRename && touched.channelRename}
                       autoFocus
+                      data-text='Имя канала'
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.channelRename}
