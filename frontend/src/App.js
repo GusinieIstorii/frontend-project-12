@@ -7,6 +7,7 @@ import { ChatPage } from './Pages/ChatPage.js';
 import { SignUpPage } from './Pages/SignUpPage.js';
 import Nav from './Components/Nav.jsx';
 import AuthContext from './Contexts/AuthContext.jsx';
+import { ToastContainer } from "react-toastify";
 
 
 // eslint-disable-next-line no-unused-vars
@@ -66,6 +67,7 @@ function App() {
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignUpPage />} />
       </Routes>
+      <ToastContainer />
     </div>
     
     </BrowserRouter>

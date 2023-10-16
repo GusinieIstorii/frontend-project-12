@@ -21,7 +21,6 @@ import {
   emitRenameChan,
   subRenameChan,
 } from "../slices/channelsSlice";
-import { ToastContainer } from "react-toastify";
 import notify from "../notify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTranslation } from "react-i18next";
@@ -171,7 +170,6 @@ const Channels = () => {
         <ul className="nav d-block nav-pills nav-fill px-2 mb-3 overflow-auto h-100 ">
           {renderChannels(channels)}
         </ul>
-        <ToastContainer />
 
         <Modal show={showDelete} onHide={handleCloseDelete} centered>
           <Modal.Header closeButton>
