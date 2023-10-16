@@ -127,6 +127,7 @@ const Channels = () => {
           split
           id="dropdown-split-basic"
           className="btn-secondary btn-light"
+          text="Управление каналом"
         />
 
         <Dropdown.Menu>
