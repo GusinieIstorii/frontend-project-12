@@ -129,7 +129,7 @@ const Channels = () => {
           className="btn-secondary btn-light"
           data-text='"Управление каналом"'><div class="d-none">"Управление каналом"</div></Dropdown.Toggle>
 
-        <Dropdown.Menu data-text='"Управление каналом"'>
+        <Dropdown.Menu>
           <Dropdown.Item onClick={handleShowDelete} data-channelid={id}>
             {t("chat.delete")}
           </Dropdown.Item>
