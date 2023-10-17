@@ -33,7 +33,7 @@ export const addChannel = createAsyncThunk(
   async (channel) => {
     await socket.timeout(5000).emit('newChannel', channel, (err) => {
       if (err) {
-        alert('сервер тормозит или упал :С');
+        console.log('сервер тормозит или упал :С');
       }
     });
   },
@@ -53,7 +53,7 @@ export const emitRemoveChan = createAsyncThunk(
   async (channel) => {
     await socket.timeout(5000).emit('removeChannel', channel, (err) => {
       if (err) {
-        alert('сервер тормозит или упал :С');
+        console.log('сервер тормозит или упал :С');
       }
     });
   },
@@ -73,7 +73,7 @@ export const emitRenameChan = createAsyncThunk(
   async (channel) => {
     await socket.timeout(5000).emit('renameChannel', channel, (err) => {
       if (err) {
-        alert('сервер тормозит или упал :С');
+        console.log('сервер тормозит или упал :С');
       }
     });
   },

@@ -33,7 +33,7 @@ export const sendMessage = createAsyncThunk(
   async (message) => {
     await socket.timeout(5000).emit('newMessage', message, (err) => {
       if (err) {
-        alert('сервер тормозит или упал :С');
+        console.log('сервер тормозит или упал :С');
       }
     });
   },
