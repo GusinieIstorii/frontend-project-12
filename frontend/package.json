@@ -42,7 +42,32 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-console": 0,
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "js": "always"
+        }
+      ],
+      "no-param-reassign": 0,
+      "no-underscore-dangle": [
+        2,
+        {
+          "allow": [
+            "__filename",
+            "__dirname"
+          ]
+        }
+      ],
+      "indent": [
+        "error",
+        2
+      ],
+      "quotes": [2, "single", { "avoidEscape": true }]
+    }
   },
   "browserslist": {
     "production": [

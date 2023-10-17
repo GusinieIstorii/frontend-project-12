@@ -5,13 +5,9 @@ import { Page404 } from './Pages/Page404.js';
 import { LoginPage } from './Pages/LoginPage.js';
 import { ChatPage } from './Pages/ChatPage.js';
 import { SignUpPage } from './Pages/SignUpPage.js';
-import Nav from './Components/Nav.jsx';
 import AuthContext from './Contexts/AuthContext.jsx';
-import { ToastContainer } from "react-toastify";
+import { ToastContainer } from 'react-toastify';
 
-
-// eslint-disable-next-line no-unused-vars
-import i18next from './i118next.js';
 import { Provider, ErrorBoundary } from '@rollbar/react'; 
 
 
@@ -26,16 +22,16 @@ const AuthProvider = ({ children }) => {
     setLoggedIn(false);
   };
 
-  const userId = JSON.parse(localStorage.getItem("userId"));
+  const userId = JSON.parse(localStorage.getItem('userId'));
   
-      useEffect(() => {
+  useEffect(() => {
         
-      if (!userId) {
-        setLoggedIn(false);
-      } else {
-        setLoggedIn(true);
-      }
-      }, [userId]);
+    if (!userId) {
+      setLoggedIn(false);
+    } else {
+      setLoggedIn(true);
+    }
+  }, [userId]);
         
 
   return (
@@ -55,24 +51,24 @@ const rollbarConfig = {
 function App() {
   
   return (
-<Provider config={rollbarConfig}>
+    <Provider config={rollbarConfig}>
       <ErrorBoundary>
-    <AuthProvider>
-    <BrowserRouter>
-    <div className='vh-100 bg-pink' style={{background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(217,137,212,1) 0%, rgba(120,132,255,1) 100%)'}}>
-      <Routes>
-        <Route path="*" element={<Page404 />} />
-        <Route path="one" element={<PageOne />} />
-        <Route path="/" element={<ChatPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<SignUpPage />} />
-      </Routes>
-      <ToastContainer />
-    </div>
+        <AuthProvider>
+          <BrowserRouter>
+            <div className='vh-100 bg-pink' style={{background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(217,137,212,1) 0%, rgba(120,132,255,1) 100%)'}}>
+              <Routes>
+                <Route path="*" element={<Page404 />} />
+                <Route path="one" element={<PageOne />} />
+                <Route path="/" element={<ChatPage />} />
+                <Route path="login" element={<LoginPage />} />
+                <Route path="signup" element={<SignUpPage />} />
+              </Routes>
+              <ToastContainer />
+            </div>
     
-    </BrowserRouter>
-    </AuthProvider>
-    </ErrorBoundary>
+          </BrowserRouter>
+        </AuthProvider>
+      </ErrorBoundary>
     </Provider>
   );
 }

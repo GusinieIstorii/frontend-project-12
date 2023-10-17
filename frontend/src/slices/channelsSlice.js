@@ -1,15 +1,15 @@
-import axios from "axios";
-import socket from "../socket.js";
+import axios from 'axios';
+import socket from '../socket.js';
 
 import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
-} from "@reduxjs/toolkit";
-import routes from "../routes.js";
+} from '@reduxjs/toolkit';
+import routes from '../routes.js';
 
 const getAuthHeader = () => {
-  const userId = JSON.parse(localStorage.getItem("userId"));
+  const userId = JSON.parse(localStorage.getItem('userId'));
   if (userId && userId.token) {
     return { Authorization: `Bearer ${userId.token}` };
   }
@@ -17,7 +17,7 @@ const getAuthHeader = () => {
 };
 
 export const fetchChannels = createAsyncThunk(
-  "channels/fetchChannels",
+  'channels/fetchChannels',
   async () => {
     const header = getAuthHeader();
     try {
@@ -32,61 +32,61 @@ export const fetchChannels = createAsyncThunk(
 );
 
 export const addChannel = createAsyncThunk(
-  "channels/addChannel",
+  'channels/addChannel',
   async (channel) => {
-    await socket.timeout(5000).emit("newChannel", channel, (err) => {
+    await socket.timeout(5000).emit('newChannel', channel, (err) => {
       if (err) {
-        alert("сервер тормозит или упал :С");
+        alert('сервер тормозит или упал :С');
       }
     });
   }
 );
 
 export const getNewChannel = createAsyncThunk(
-  "channels/getNewChannel",
+  'channels/getNewChannel',
   async (_, { getState, dispatch }) => {
-     await socket.on("newChannel", (channeleWithId) => {
-      dispatch({ type: "channels/saveNewChannel", payload: channeleWithId });
+    await socket.on('newChannel', (channeleWithId) => {
+      dispatch({ type: 'channels/saveNewChannel', payload: channeleWithId });
     });
   }
 );
 
 export const emitRemoveChan = createAsyncThunk(
-  "channels/emitRemoveChan",
+  'channels/emitRemoveChan',
   async (channel) => {
-    await socket.timeout(5000).emit("removeChannel", channel, (err) => {
+    await socket.timeout(5000).emit('removeChannel', channel, (err) => {
       if (err) {
-        alert("сервер тормозит или упал :С");
+        alert('сервер тормозит или упал :С');
       }
     });
   }
 );
 
 export const subRemoveChan = createAsyncThunk(
-  "channels/subRemoveChan",
+  'channels/subRemoveChan',
   async (_, { getState, dispatch }) => {
-     await socket.on("removeChannel", (channel) => {
-      dispatch({ type: "channels/removeChannel", payload: channel.id });
+    await socket.on('removeChannel', (channel) => {
+      dispatch({ type: 'channels/removeChannel', payload: channel.id });
     });
   }
 );
 
 export const emitRenameChan = createAsyncThunk(
-  "channels/emitRenameChan",
+  'channels/emitRenameChan',
   async (channel) => {
-    await socket.timeout(5000).emit("renameChannel", channel, (err) => {
+    await socket.timeout(5000).emit('renameChannel', channel, (err) => {
       if (err) {
-        alert("сервер тормозит или упал :С");
+        alert('сервер тормозит или упал :С');
       }
     });
   }
 );
 
 export const subRenameChan = createAsyncThunk(
-  "channels/subRenameChan",
+  'channels/subRenameChan',
   async (_, { getState, dispatch }) => {
-     await socket.on("renameChannel", (channelWithNewName) => {
-      dispatch({ type: "channels/renameChannel", payload: {id: channelWithNewName.id, changes: channelWithNewName} });
+    await socket.on('renameChannel', (channelWithNewName) => {
+      dispatch({ type: 'channels/renameChannel', payload: {id: channelWithNewName.id, changes: channelWithNewName} });
     });
   }
 );
@@ -94,44 +94,44 @@ export const subRenameChan = createAsyncThunk(
 const channelsAdapter = createEntityAdapter(); // набор готовых редьюсеров и селекторов для основных операций над сущностями
 
 const channelsSlice = createSlice({
-    name: 'channels',
-    initialState: channelsAdapter.getInitialState({ loadingStatus: 'idle', error: null }), // По умолчанию: { ids: [], entities: {} }
-    reducers: {
-      saveNewChannel: (state, { payload }) => {
-        channelsAdapter.addOne(state, payload);
-      },
-      removeChannel: (state, { payload}) => {
-        channelsAdapter.removeOne(state, payload);
-      },
-      renameChannel: (state, { payload }) => {
-        console.log(payload);
-        channelsAdapter.updateOne(state, payload);
-      },
-      // addChannel: channelsAdapter.addOne, БЫЛО!
-      // removeTask: tasksAdapter.removeOne,
+  name: 'channels',
+  initialState: channelsAdapter.getInitialState({ loadingStatus: 'idle', error: null }), // По умолчанию: { ids: [], entities: {} }
+  reducers: {
+    saveNewChannel: (state, { payload }) => {
+      channelsAdapter.addOne(state, payload);
     },
-    extraReducers: (builder) => { // Для реакции на действия, происходящие в других слайсах
-      builder
-        .addCase(fetchChannels.fulfilled, channelsAdapter.addMany)
+    removeChannel: (state, { payload}) => {
+      channelsAdapter.removeOne(state, payload);
+    },
+    renameChannel: (state, { payload }) => {
+      console.log(payload);
+      channelsAdapter.updateOne(state, payload);
+    },
+    // addChannel: channelsAdapter.addOne, БЫЛО!
+    // removeTask: tasksAdapter.removeOne,
+  },
+  extraReducers: (builder) => { // Для реакции на действия, происходящие в других слайсах
+    builder
+      .addCase(fetchChannels.fulfilled, channelsAdapter.addMany)
         
-    },
-  })
+  },
+})
 
 export const { actions } = channelsSlice;
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
 export default channelsSlice.reducer;
 
 // .addCase(addTask.fulfilled, (state, action) => {
-        //   // Добавляем задачу
-        //   console.log(action);
-        //   tasksAdapter.addOne(state, action.payload);
-        //   state.loadingStatus = 'idle';
-        //   state.error = null;
-        // })
-        // .addCase(removeTask.fulfilled, (state, action) => {
-        //   // удаляем задачу
-        //   console.log(action);
-        //   tasksAdapter.removeOne(state, action);
-        //   state.loadingStatus = 'idle';
-        //   state.error = null;
-        // });
+//   // Добавляем задачу
+//   console.log(action);
+//   tasksAdapter.addOne(state, action.payload);
+//   state.loadingStatus = 'idle';
+//   state.error = null;
+// })
+// .addCase(removeTask.fulfilled, (state, action) => {
+//   // удаляем задачу
+//   console.log(action);
+//   tasksAdapter.removeOne(state, action);
+//   state.loadingStatus = 'idle';
+//   state.error = null;
+// });

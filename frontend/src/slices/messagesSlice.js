@@ -1,16 +1,16 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
-} from "@reduxjs/toolkit";
-import routes from "../routes.js";
-import socket from "../socket.js";
-import { actions as channelsActions } from "./channelsSlice.js";
+} from '@reduxjs/toolkit';
+import routes from '../routes.js';
+import socket from '../socket.js';
+import { actions as channelsActions } from './channelsSlice.js';
 
 
 const getAuthHeader = () => {
-  const userId = JSON.parse(localStorage.getItem("userId"));
+  const userId = JSON.parse(localStorage.getItem('userId'));
   if (userId && userId.token) {
     return { Authorization: `Bearer ${userId.token}` };
   }
@@ -18,15 +18,15 @@ const getAuthHeader = () => {
 };
 
 export const fetchMessages = createAsyncThunk(
-  "messages/fetchMessages",
+  'messages/fetchMessages',
   async () => {
     try{
       const header = getAuthHeader();
-    const response = await axios.get(routes.dataPath(), {
-      headers: header,
-    });
-    console.log(response.data);
-    return response.data.messages;
+      const response = await axios.get(routes.dataPath(), {
+        headers: header,
+      });
+      console.log(response.data);
+      return response.data.messages;
     } catch(err) {
       throw err;
     }
@@ -35,21 +35,21 @@ export const fetchMessages = createAsyncThunk(
 );
 
 export const sendMessage = createAsyncThunk(
-  "messages/sendMessage",
+  'messages/sendMessage',
   async (message) => {
-    await socket.timeout(5000).emit("newMessage", message, (err) => {
+    await socket.timeout(5000).emit('newMessage', message, (err) => {
       if (err) {
-        alert("сервер тормозит или упал :С");
+        alert('сервер тормозит или упал :С');
       }
     });
   }
 );
 
 export const getNewMessage = createAsyncThunk(
-  "messages/getNewMessage",
+  'messages/getNewMessage',
   async (_, { getState, dispatch }) => {
-     await socket.on("newMessage", (messageWithId) => {
-      dispatch({ type: "messages/saveNewMessage", payload: messageWithId });
+    await socket.on('newMessage', (messageWithId) => {
+      dispatch({ type: 'messages/saveNewMessage', payload: messageWithId });
     });
   }
 );
@@ -57,9 +57,9 @@ export const getNewMessage = createAsyncThunk(
 const messagesAdapter = createEntityAdapter(); // набор готовых редьюсеров и селекторов для основных операций над сущностями
 
 const messagesSlice = createSlice({
-  name: "messages",
+  name: 'messages',
   initialState: messagesAdapter.getInitialState({
-    loadingStatus: "idle",
+    loadingStatus: 'idle',
     error: null,
   }), // По умолчанию: { ids: [], entities: {} }
   reducers: {
@@ -92,14 +92,14 @@ const messagesSlice = createSlice({
   extraReducers: (builder) => {
     // Для реакции на действия, происходящие в других слайсах
     builder.addCase(fetchMessages.fulfilled, messagesAdapter.addMany)
-    .addCase(channelsActions.removeChannel, (state, {payload}) => {
-      console.log(`extra reducer ${payload}`);
-      const channelId = payload;
-      const restEntities = Object.values(state.entities).filter(
-        (e) => e.channelId !== channelId
-      );
-      messagesAdapter.setAll(state, restEntities);
-    });
+      .addCase(channelsActions.removeChannel, (state, {payload}) => {
+        console.log(`extra reducer ${payload}`);
+        const channelId = payload;
+        const restEntities = Object.values(state.entities).filter(
+          (e) => e.channelId !== channelId
+        );
+        messagesAdapter.setAll(state, restEntities);
+      });
   },
 });
 

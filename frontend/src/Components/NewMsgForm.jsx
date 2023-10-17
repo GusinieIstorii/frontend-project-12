@@ -1,16 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 // import socket from "../socket";
 // import ActiveChannelContext from "../Contexts/ActiveChannelContext";
-import { actions as messagesActions } from "../slices/messagesSlice";
-import { sendMessage, getNewMessage } from "../slices/messagesSlice";
-import profanityFilter from "../profanityFilter";
-import { useTranslation } from "react-i18next";
+import { sendMessage, getNewMessage } from '../slices/messagesSlice.js';
+import profanityFilter from '../profanityFilter.js';
+import { useTranslation } from 'react-i18next';
 // import { faEnvelope, FontAwesomeIcon } from '@fortawesome/fontawesome-free'
 // import {  } from '@fortawesome/fontawesome-free'
 
 const NewMsgForm = () => {
-  const [inputValue, setValue] = useState("");
+  const [inputValue, setValue] = useState('');
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const inputEl = useRef(null);
@@ -28,8 +27,8 @@ const NewMsgForm = () => {
     inputEl.current.readOnly = true;
     submitEl.current.disabled = true;
     const form = e.target;
-    const value = profanityFilter(form.querySelector("input").value);
-    const userId = JSON.parse(localStorage.getItem("userId"));
+    const value = profanityFilter(form.querySelector('input').value);
+    const userId = JSON.parse(localStorage.getItem('userId'));
     const { username } = userId;
     dispatch(
       sendMessage({ message: value, username, channelId: initialActiveChannel })
@@ -37,7 +36,7 @@ const NewMsgForm = () => {
     dispatch(getNewMessage());
     inputEl.current.readOnly = false;
     submitEl.current.disabled = false;
-    setValue("");
+    setValue('');
   };
 
   const onChange = (e) => setValue(e.target.value);
@@ -49,7 +48,7 @@ const NewMsgForm = () => {
           type="text"
           className="form-control"
           required
-          placeholder={t("chat.inputMsg")}
+          placeholder={t('chat.inputMsg')}
           aria-label="message"
           aria-describedby="button-addon2"
           value={inputValue}

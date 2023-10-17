@@ -1,53 +1,52 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 // import ActiveChannelContext from '../Contexts/ActiveChannelContext';
-import { fetchChannels, selectors } from "../slices/channelsSlice";
-import { changeActiveChannel } from "../slices/activeChannelSlice";
-import socket from "../socket";
-import cn from "classnames";
-import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import Dropdown from "react-bootstrap/Dropdown";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
+import { fetchChannels, selectors } from '../slices/channelsSlice.js';
+import { changeActiveChannel } from '../slices/activeChannelSlice.js';
+import cn from 'classnames';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 // import { Formik, Form, Field } from "formik";
-import * as formik from "formik";
-import * as Yup from "yup";
-
-import { actions as channelsActions } from "../slices/channelsSlice.js";
+import * as formik from 'formik';
+import * as Yup from 'yup';
 import {
   emitRemoveChan,
   subRemoveChan,
   emitRenameChan,
   subRenameChan,
-} from "../slices/channelsSlice";
-import notify from "../notify";
-import "react-toastify/dist/ReactToastify.css";
-import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
+} from '../slices/channelsSlice.js';
+import notify from '../notify.js';
+import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const Channels = () => {
   const { Formik } = formik;
   const dispatch = useDispatch();
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     try {
       dispatch(fetchChannels());
     } catch (err) {
-      toast.error(t("networkError"), {
-        position: "top-right",
+      toast.error(t('networkError'), {
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: 'light',
       });
     }
-  }, [dispatch]);
+  }, [dispatch, t]);
 
-  const { t } = useTranslation();
+  
 
   const channels = useSelector(selectors.selectAll);
 
@@ -56,7 +55,7 @@ const Channels = () => {
   );
 
   const handleChannel = (e) => {
-    const newActiveChannelId = e.target.getAttribute("data-channelid");
+    const newActiveChannelId = e.target.getAttribute('data-channelid');
     dispatch(changeActiveChannel(newActiveChannelId));
   };
 
@@ -68,7 +67,7 @@ const Channels = () => {
   const handleCloseDelete = () => setShowDelete(false); //закрыть модальное окно удаления канала
   const handleShowDelete = (e) => {
     //открыть модальное окно удаления канала
-    const idChannel = e.target.getAttribute("data-channelid");
+    const idChannel = e.target.getAttribute('data-channelid');
     console.log(`handleShowDelete ${idChannel}`);
     setChanToEdit(idChannel);
     setShowDelete(true);
@@ -81,16 +80,16 @@ const Channels = () => {
       dispatch(changeActiveChannel(1));
     }
     handleCloseDelete();
-    notify(t("chat.channelDeleted"));
+    notify(t('chat.channelDeleted'));
   };
 
   //  rename modal
   const [showRename, setShowRename] = useState(false);
   const handleRenameClose = () => setShowRename(false);
-  const [authFailed, setAuthFailed] = useState(false);
+  // const [authFailed, setAuthFailed] = useState(false);
 
   const handleShowRename = (e) => {
-    const idChannel = e.target.getAttribute("data-channelid");
+    const idChannel = e.target.getAttribute('data-channelid');
     console.log(`handleShow rename modal ${idChannel}`);
     setChanToEdit(idChannel);
     setShowRename(true);
@@ -99,25 +98,25 @@ const Channels = () => {
   const channelNames = channels.map((channel) => channel.name);
 
   const submitForm = (values, { setSubmitting }) => {
-    setAuthFailed(false);
+    // setAuthFailed(false);
     try {
       dispatch(
         emitRenameChan({ id: channelToEdit, name: values.channelRename })
       );
       dispatch(subRenameChan());
       handleRenameClose();
-      notify(t("chat.channelRenamed"));
+      notify(t('chat.channelRenamed'));
     } catch (err) {
       setSubmitting(false);
-      setAuthFailed(true);
+      // setAuthFailed(true);
       throw err;
     }
   };
 
   const LoginSchema = Yup.object().shape({
     channelRename: Yup.string()
-      .notOneOf(channelNames, t("chat.nameShouldBeUnique"))
-      .required(t("chat.requiredFiled")),
+      .notOneOf(channelNames, t('chat.nameShouldBeUnique'))
+      .required(t('chat.requiredFiled')),
   });
 
   const renderDropdown = (id) => {
@@ -131,10 +130,10 @@ const Channels = () => {
 
         <Dropdown.Menu>
           <Dropdown.Item onClick={handleShowDelete} data-channelid={id}>
-            {t("chat.delete")}
+            {t('chat.delete')}
           </Dropdown.Item>
           <Dropdown.Item onClick={handleShowRename} data-channelid={id}>
-            {t("chat.rename")}
+            {t('chat.rename')}
           </Dropdown.Item>
         </Dropdown.Menu>
       </>
@@ -147,9 +146,9 @@ const Channels = () => {
         <li className="nav-item" key={id}>
           <Dropdown as={ButtonGroup} key={id} className="w-100">
             <Button
-              className={cn("w-100 rounded-0 text-start btn text-start text-truncate", {
-                "btn-secondary": Number(id) === Number(activeChannel),
-                "btn-light": Number(id) !== Number(activeChannel),
+              className={cn('w-100 rounded-0 text-start btn text-start text-truncate', {
+                'btn-secondary': Number(id) === Number(activeChannel),
+                'btn-light': Number(id) !== Number(activeChannel),
               })}
               onClick={handleChannel}
               data-channelid={id}
@@ -173,20 +172,20 @@ const Channels = () => {
 
         <Modal show={showDelete} onHide={handleCloseDelete} centered>
           <Modal.Header closeButton>
-            <Modal.Title>{t("chat.deleteChannel")}</Modal.Title>
+            <Modal.Title>{t('chat.deleteChannel')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {t("chat.sure")}
+            {t('chat.sure')}
             <div className="d-flex justify-content-end">
               <Button
                 variant="secondary"
                 onClick={handleCloseDelete}
                 className="me-2"
               >
-                {t("chat.cancel")}
+                {t('chat.cancel')}
               </Button>
               <Button variant="danger" onClick={removeChannel}>
-                {t("chat.delete")}
+                {t('chat.delete')}
               </Button>
             </div>
           </Modal.Body>
@@ -194,11 +193,11 @@ const Channels = () => {
 
         <Modal show={showRename} onHide={handleRenameClose} centered>
           <Modal.Header closeButton>
-            <Modal.Title>{t("chat.renameChannel")}</Modal.Title>
+            <Modal.Title>{t('chat.renameChannel')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Formik
-              initialValues={{ channelRename: "" }}
+              initialValues={{ channelRename: '' }}
               validationSchema={LoginSchema}
               onSubmit={submitForm}
             >
@@ -206,7 +205,7 @@ const Channels = () => {
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group controlId="validationFormik01" className="mb-3">
                     <Form.Label className="visually-hidden">
-                      {t("chat.channelName")}
+                      {t('chat.channelName')}
                     </Form.Label>
                     <Form.Control
                       type="text"
@@ -227,10 +226,10 @@ const Channels = () => {
                       onClick={handleRenameClose}
                       className="me-2"
                     >
-                      {t("chat.cancel")}
+                      {t('chat.cancel')}
                     </Button>
                     <Button type="submit" variant="outline-primary">
-                      {t("chat.send")}
+                      {t('chat.send')}
                     </Button>
                   </div>
                 </Form>

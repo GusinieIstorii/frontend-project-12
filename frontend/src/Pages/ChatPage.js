@@ -1,15 +1,15 @@
-import { Link, Outlet } from "react-router-dom";
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import Channels from "../Components/Channels.jsx";
-import Messages from "../Components/Messages.jsx";
-import AddChanBut from "../Components/AddChanBut.jsx";
-import NewMsgForm from "../Components/NewMsgForm.jsx";
-import { useTranslation } from "react-i18next";
-import { selectors as selectorsChannels } from "../slices/channelsSlice.js";
-import { selectors as selectorsMessages } from "../slices/messagesSlice.js";
-import Nav from "../Components/Nav.jsx";
+import { Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import Channels from '../Components/Channels.jsx';
+import Messages from '../Components/Messages.jsx';
+import AddChanBut from '../Components/AddChanBut.jsx';
+import NewMsgForm from '../Components/NewMsgForm.jsx';
+import { useTranslation } from 'react-i18next';
+import { selectors as selectorsChannels } from '../slices/channelsSlice.js';
+import { selectors as selectorsMessages } from '../slices/messagesSlice.js';
+import Nav from '../Components/Nav.jsx';
 // import LoginForm from '../Components/LoginForm';
 
 export const ChatPage = () => {
@@ -37,10 +37,10 @@ export const ChatPage = () => {
   });
 
   useEffect(() => {
-    const userId = JSON.parse(localStorage.getItem("userId"));
+    const userId = JSON.parse(localStorage.getItem('userId'));
     console.log(userId);
     if (!userId) {
-      navigate("/login");
+      navigate('/login');
     }
   }, [navigate]);
 
@@ -52,7 +52,7 @@ export const ChatPage = () => {
           <div className="row h-100 bg-white flex-md-row">
             <div className="col-4 col-md-2 border-end px-0 bg-light d-flex flex-column h-100">
               <div className="d-flex justify-content-between mt-1 mb-2 ps-4 pe-2 p-4 align-items-center">
-                <b>{t("chat.channels")}</b>
+                <b>{t('chat.channels')}</b>
                 <AddChanBut />
               </div>
               <Channels />
@@ -64,7 +64,7 @@ export const ChatPage = () => {
                     <b># {activeChannelName}</b>
                   </p>
                   <span className="text-muted">
-                    {msgsAmount} {t("chat.msgs.msg", { count: msgsAmount })}
+                    {msgsAmount} {t('chat.msgs.msg', { count: msgsAmount })}
                   </span>
                 </div>
 

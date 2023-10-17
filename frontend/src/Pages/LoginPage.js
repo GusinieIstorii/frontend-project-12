@@ -1,7 +1,7 @@
-import { Link, Outlet } from "react-router-dom";
-import LoginForm from "../Components/LoginForm.jsx";
-import { useTranslation } from "react-i18next";
-import Nav from "../Components/Nav.jsx";
+import { Link, Outlet } from 'react-router-dom';
+import LoginForm from '../Components/LoginForm.jsx';
+import { useTranslation } from 'react-i18next';
+import Nav from '../Components/Nav.jsx';
 
 export const LoginPage = () => {
   const { t } = useTranslation();
@@ -33,8 +33,8 @@ export const LoginPage = () => {
                   </div>
                   <div className="card-footer p-4">
                     <div className="text-center">
-                      {t("loginForm.notHaveAccount")}{" "}
-                      <Link to="/signup">{t("loginForm.registration")}</Link>
+                      {t('loginForm.notHaveAccount')}{' '}
+                      <Link to="/signup">{t('loginForm.registration')}</Link>
                     </div>
                   </div>
                 </div>
