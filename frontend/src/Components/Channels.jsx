@@ -125,9 +125,9 @@ const Channels = () => {
       <>
         <Dropdown.Toggle
           split
-          id='"Управление каналом"'
+          id='Управление каналом'
           className="btn-secondary btn-light"
-          data-text='"Управление каналом"'><div class="visually-hidden">"Управление каналом"</div></Dropdown.Toggle>
+          data-text='Управление каналом'><div class="visually-hidden">Управление каналом</div></Dropdown.Toggle>
 
         <Dropdown.Menu>
           <Dropdown.Item onClick={handleShowDelete} data-channelid={id}>
