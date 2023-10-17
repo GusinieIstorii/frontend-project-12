@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import ActiveChannelContext from '../Contexts/ActiveChannelContext';
-import { fetchChannels, selectors } from '../slices/channelsSlice.js';
-import { changeActiveChannel } from '../slices/activeChannelSlice.js';
 import cn from 'classnames';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -12,16 +10,18 @@ import Form from 'react-bootstrap/Form';
 // import { Formik, Form, Field } from "formik";
 import * as formik from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import {
   emitRemoveChan,
   subRemoveChan,
   emitRenameChan,
   subRenameChan,
+  fetchChannels, selectors,
 } from '../slices/channelsSlice.js';
 import notify from '../notify.js';
 import 'react-toastify/dist/ReactToastify.css';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
+import { changeActiveChannel } from '../slices/activeChannelSlice.js';
 
 const Channels = () => {
   const { Formik } = formik;
@@ -46,13 +46,9 @@ const Channels = () => {
     }
   }, [dispatch, t]);
 
-  
-
   const channels = useSelector(selectors.selectAll);
 
-  const activeChannel = useSelector((state) =>
-    Number(state.activeChannel.activeChannelId)
-  );
+  const activeChannel = useSelector((state) => Number(state.activeChannel.activeChannelId));
 
   const handleChannel = (e) => {
     const newActiveChannelId = e.target.getAttribute('data-channelid');
@@ -64,9 +60,9 @@ const Channels = () => {
   const [showDelete, setShowDelete] = useState(false);
   const [channelToEdit, setChanToEdit] = useState(0);
 
-  const handleCloseDelete = () => setShowDelete(false); //закрыть модальное окно удаления канала
+  const handleCloseDelete = () => setShowDelete(false); // закрыть модальное окно удаления канала
   const handleShowDelete = (e) => {
-    //открыть модальное окно удаления канала
+    // открыть модальное окно удаления канала
     const idChannel = e.target.getAttribute('data-channelid');
     console.log(`handleShowDelete ${idChannel}`);
     setChanToEdit(idChannel);
@@ -101,7 +97,7 @@ const Channels = () => {
     // setAuthFailed(false);
     try {
       dispatch(
-        emitRenameChan({ id: channelToEdit, name: values.channelRename })
+        emitRenameChan({ id: channelToEdit, name: values.channelRename }),
       );
       dispatch(subRenameChan());
       handleRenameClose();
@@ -119,49 +115,46 @@ const Channels = () => {
       .required(t('chat.requiredFiled')),
   });
 
-  const renderDropdown = (id) => {
-    return (
-      <>
-        <Dropdown.Toggle
-          split
-          id='Управление каналом'
-          className="btn-secondary btn-light"
-          data-text='Управление каналом'><div class="visually-hidden">Управление каналом</div></Dropdown.Toggle>
+  const renderDropdown = (id) => (
+    <>
+      <Dropdown.Toggle
+        split
+        id="Управление каналом"
+        className="btn-secondary btn-light"
+        data-text="Управление каналом"
+      >
+        <div className="visually-hidden">Управление каналом</div>
+      </Dropdown.Toggle>
 
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={handleShowDelete} data-channelid={id}>
-            {t('chat.delete')}
-          </Dropdown.Item>
-          <Dropdown.Item onClick={handleShowRename} data-channelid={id}>
-            {t('chat.rename')}
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </>
-    );
-  };
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={handleShowDelete} data-channelid={id}>
+          {t('chat.delete')}
+        </Dropdown.Item>
+        <Dropdown.Item onClick={handleShowRename} data-channelid={id}>
+          {t('chat.rename')}
+        </Dropdown.Item>
+      </Dropdown.Menu>
+    </>
+  );
 
-  const renderChannels = (channels) => {
-    return channels.map(({ id, name, removable }) => {
-      return (
-        <li className="nav-item" key={id}>
-          <Dropdown as={ButtonGroup} key={id} className="w-100">
-            <Button
-              className={cn('w-100 rounded-0 text-start btn text-start text-truncate', {
-                'btn-secondary': Number(id) === Number(activeChannel),
-                'btn-light': Number(id) !== Number(activeChannel),
-              })}
-              onClick={handleChannel}
-              data-channelid={id}
-            >
-              <span className="me-1">#</span>
-              {name}
-            </Button>
-            {removable && renderDropdown(id)}
-          </Dropdown>
-        </li>
-      );
-    });
-  };
+  const renderChannels = (channelsToRender) => channelsToRender.map(({ id, name, removable }) => (
+    <li className="nav-item" key={id}>
+      <Dropdown as={ButtonGroup} key={id} className="w-100">
+        <Button
+          className={cn('w-100 rounded-0 text-start btn text-start text-truncate', {
+            'btn-secondary': Number(id) === Number(activeChannel),
+            'btn-light': Number(id) !== Number(activeChannel),
+          })}
+          onClick={handleChannel}
+          data-channelid={id}
+        >
+          <span className="me-1">#</span>
+          {name}
+        </Button>
+        {removable && renderDropdown(id)}
+      </Dropdown>
+    </li>
+  ));
 
   return (
     channels && (
@@ -201,7 +194,9 @@ const Channels = () => {
               validationSchema={LoginSchema}
               onSubmit={submitForm}
             >
-              {({ handleSubmit, handleChange, values, errors, touched }) => (
+              {({
+                handleSubmit, handleChange, values, errors, touched,
+              }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group controlId="validationFormik01" className="mb-3">
                     <Form.Label className="visually-hidden">
@@ -214,7 +209,7 @@ const Channels = () => {
                       onChange={handleChange}
                       isInvalid={errors.channelRename && touched.channelRename}
                       autoFocus
-                      data-text='Имя канала'
+                      data-text="Имя канала"
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.channelRename}

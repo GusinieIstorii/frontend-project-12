@@ -1,11 +1,11 @@
 import axios from 'axios';
-import socket from '../socket.js';
-
 import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
+import socket from '../socket.js';
+
 import routes from '../routes.js';
 
 const getAuthHeader = () => {
@@ -20,15 +20,12 @@ export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
   async () => {
     const header = getAuthHeader();
-    try {
-      const response = await axios.get(routes.dataPath(), {
-        headers: header,
-      });
-      return response.data.channels;
-    } catch(err) {
-      throw err;
-    }
-  }
+
+    const response = await axios.get(routes.dataPath(), {
+      headers: header,
+    });
+    return response.data.channels;
+  },
 );
 
 export const addChannel = createAsyncThunk(
@@ -39,16 +36,16 @@ export const addChannel = createAsyncThunk(
         alert('сервер тормозит или упал :С');
       }
     });
-  }
+  },
 );
 
 export const getNewChannel = createAsyncThunk(
   'channels/getNewChannel',
-  async (_, { getState, dispatch }) => {
+  async (_, { dispatch }) => {
     await socket.on('newChannel', (channeleWithId) => {
       dispatch({ type: 'channels/saveNewChannel', payload: channeleWithId });
     });
-  }
+  },
 );
 
 export const emitRemoveChan = createAsyncThunk(
@@ -59,16 +56,16 @@ export const emitRemoveChan = createAsyncThunk(
         alert('сервер тормозит или упал :С');
       }
     });
-  }
+  },
 );
 
 export const subRemoveChan = createAsyncThunk(
   'channels/subRemoveChan',
-  async (_, { getState, dispatch }) => {
+  async (_, { dispatch }) => {
     await socket.on('removeChannel', (channel) => {
       dispatch({ type: 'channels/removeChannel', payload: channel.id });
     });
-  }
+  },
 );
 
 export const emitRenameChan = createAsyncThunk(
@@ -79,19 +76,20 @@ export const emitRenameChan = createAsyncThunk(
         alert('сервер тормозит или упал :С');
       }
     });
-  }
+  },
 );
 
 export const subRenameChan = createAsyncThunk(
   'channels/subRenameChan',
-  async (_, { getState, dispatch }) => {
+  async (_, { dispatch }) => {
     await socket.on('renameChannel', (channelWithNewName) => {
-      dispatch({ type: 'channels/renameChannel', payload: {id: channelWithNewName.id, changes: channelWithNewName} });
+      dispatch({ type: 'channels/renameChannel', payload: { id: channelWithNewName.id, changes: channelWithNewName } });
     });
-  }
+  },
 );
 
-const channelsAdapter = createEntityAdapter(); // набор готовых редьюсеров и селекторов для основных операций над сущностями
+const channelsAdapter = createEntityAdapter();
+// набор готовых редьюсеров и селекторов для основных операций над сущностями
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -100,7 +98,7 @@ const channelsSlice = createSlice({
     saveNewChannel: (state, { payload }) => {
       channelsAdapter.addOne(state, payload);
     },
-    removeChannel: (state, { payload}) => {
+    removeChannel: (state, { payload }) => {
       channelsAdapter.removeOne(state, payload);
     },
     renameChannel: (state, { payload }) => {
@@ -112,10 +110,9 @@ const channelsSlice = createSlice({
   },
   extraReducers: (builder) => { // Для реакции на действия, происходящие в других слайсах
     builder
-      .addCase(fetchChannels.fulfilled, channelsAdapter.addMany)
-        
+      .addCase(fetchChannels.fulfilled, channelsAdapter.addMany);
   },
-})
+});
 
 export const { actions } = channelsSlice;
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);

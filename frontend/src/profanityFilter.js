@@ -1,11 +1,10 @@
 import filter from 'leo-profanity';
 
 const profanityFilter = (value) => {
-
-  filter.list()
+  filter.list();
   // remove all bad words from the filter
   // now the filter can't filter anything cause there are no bad words
-  filter.clearList()
+  filter.clearList();
   // adding word (from builtin dictionary) into the filter
   filter.add(filter.getDictionary('en'));
   filter.add(filter.getDictionary('fr'));

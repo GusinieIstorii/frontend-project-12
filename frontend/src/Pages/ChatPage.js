@@ -1,37 +1,35 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Channels from '../Components/Channels.jsx';
 import Messages from '../Components/Messages.jsx';
 import AddChanBut from '../Components/AddChanBut.jsx';
 import NewMsgForm from '../Components/NewMsgForm.jsx';
-import { useTranslation } from 'react-i18next';
 import { selectors as selectorsChannels } from '../slices/channelsSlice.js';
 import { selectors as selectorsMessages } from '../slices/messagesSlice.js';
 import Nav from '../Components/Nav.jsx';
 // import LoginForm from '../Components/LoginForm';
 
-export const ChatPage = () => {
+const ChatPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const activeChanId = useSelector((state) =>
-    Number(state.activeChannel.activeChannelId)
-  );
+  const activeChanId = useSelector((state) => Number(state.activeChannel.activeChannelId));
   const activeChannelName = useSelector((state) => {
     try {
       return selectorsChannels.selectById(state, activeChanId).name;
     } catch (err) {
       console.log(err);
     }
+    return null;
   });
 
   const msgsAmount = useSelector((state) => {
     const allMessages = selectorsMessages.selectAll(state);
     const allMessagesValues = Object.values(allMessages);
     const messagesCurChan = allMessagesValues.filter(
-      (message) => Number(message.channelId) === Number(activeChanId)
+      (message) => Number(message.channelId) === Number(activeChanId),
     );
     return messagesCurChan.length;
   });
@@ -61,10 +59,16 @@ export const ChatPage = () => {
               <div className="d-flex flex-column h-100">
                 <div className="bg-light p-3 shadow-sm small">
                   <p className="m-0">
-                    <b># {activeChannelName}</b>
+                    <b>
+                      #
+                      {' '}
+                      {activeChannelName}
+                    </b>
                   </p>
                   <span className="text-muted">
-                    {msgsAmount} {t('chat.msgs.msg', { count: msgsAmount })}
+                    {msgsAmount}
+                    {' '}
+                    {t('chat.msgs.msg', { count: msgsAmount })}
                   </span>
                 </div>
 
@@ -84,3 +88,5 @@ export const ChatPage = () => {
     </>
   );
 };
+
+export default ChatPage;

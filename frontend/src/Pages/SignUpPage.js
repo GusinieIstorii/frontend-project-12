@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import SignUpForm from '../Components/SignUpForm.jsx';
 import Nav from '../Components/Nav.jsx';
 
-export const SignUpPage = () => (
+const SignUpPage = () => (
   <>
     <div className="h-100 d-flex flex-column">
       <Nav />
@@ -19,7 +19,7 @@ export const SignUpPage = () => (
                       height="320"
                       allowFullScreen
                       title="cat"
-                    ></iframe>
+                    />
                   </div>
                   <div className="col">
                     <SignUpForm />
@@ -33,5 +33,6 @@ export const SignUpPage = () => (
     </div>
     <Outlet />
   </>
-  
 );
+
+export default SignUpPage;

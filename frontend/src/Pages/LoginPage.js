@@ -1,9 +1,9 @@
 import { Link, Outlet } from 'react-router-dom';
-import LoginForm from '../Components/LoginForm.jsx';
 import { useTranslation } from 'react-i18next';
+import LoginForm from '../Components/LoginForm.jsx';
 import Nav from '../Components/Nav.jsx';
 
-export const LoginPage = () => {
+const LoginPage = () => {
   const { t } = useTranslation();
 
   return (
@@ -25,7 +25,7 @@ export const LoginPage = () => {
                         className="rounded-circle"
                         allowFullScreen
                         title="cat"
-                      ></iframe>
+                      />
                     </div>
                     <div className="col">
                       <LoginForm />
@@ -33,7 +33,8 @@ export const LoginPage = () => {
                   </div>
                   <div className="card-footer p-4">
                     <div className="text-center">
-                      {t('loginForm.notHaveAccount')}{' '}
+                      {t('loginForm.notHaveAccount')}
+                      {' '}
                       <Link to="/signup">{t('loginForm.registration')}</Link>
                     </div>
                   </div>
@@ -48,3 +49,5 @@ export const LoginPage = () => {
     </>
   );
 };
+
+export default LoginPage;

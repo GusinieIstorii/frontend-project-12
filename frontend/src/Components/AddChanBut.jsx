@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectors } from '../slices/channelsSlice.js';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 // import { Formik, Form, Field } from "formik";
 import Form from 'react-bootstrap/Form';
 import * as formik from 'formik';
 import * as Yup from 'yup';
-import { addChannel, getNewChannel } from '../slices/channelsSlice.js';
+import { useTranslation } from 'react-i18next';
+import { addChannel, getNewChannel, selectors } from '../slices/channelsSlice.js';
 import 'react-toastify/dist/ReactToastify.css';
 import notify from '../notify.js';
-import { useTranslation } from 'react-i18next';
 
 const AddChanBut = () => {
   const dispatch = useDispatch();
@@ -48,12 +47,9 @@ const AddChanBut = () => {
 
   return (
     <>
-      <button onClick={handleShow} className="btn btn-primary">
-        {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-</svg> */}+
+      <button onClick={handleShow} className="btn btn-primary" type="button">
+        +
       </button>
-
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
@@ -65,7 +61,9 @@ const AddChanBut = () => {
             validationSchema={LoginSchema}
             onSubmit={submitForm}
           >
-            {({ handleSubmit, handleChange, values, errors, touched }) => (
+            {({
+              handleSubmit, handleChange, values, errors, touched,
+            }) => (
               <Form noValidate onSubmit={handleSubmit}>
                 <Form.Group controlId="validationFormik01" className="mb-3">
                   <Form.Label className="visually-hidden">

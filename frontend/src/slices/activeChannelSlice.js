@@ -10,6 +10,7 @@ const activeChannelSlice = createSlice({
   initialState,
   reducers: {
     changeActiveChannel: (state, action) => {
+      // eslint-disable-next-line no-param-reassign
       state.activeChannelId = action.payload;
     },
     // removeTask: tasksAdapter.removeOne,
@@ -18,10 +19,11 @@ const activeChannelSlice = createSlice({
     builder.addCase(channelsActions.saveNewChannel, (state, action) => {
       console.log(action);
       const newIdActiveChan = action.payload.id;
+      // eslint-disable-next-line no-param-reassign
       state.activeChannelId = newIdActiveChan;
-    })
-  }
-})
+    });
+  },
+});
 
 export const { changeActiveChannel } = activeChannelSlice.actions;
 export default activeChannelSlice.reducer;

@@ -1,15 +1,15 @@
 import { Link, Outlet } from 'react-router-dom';
-import Nav from '../Components/Nav.jsx';
 import { useTranslation } from 'react-i18next';
+import Nav from '../Components/Nav.jsx';
 
-export const Page404 = () => {
+const Page404 = () => {
   const { t } = useTranslation();
 
   return (
     <>
       <div className="h-100 d-flex flex-column">
         <Nav />
-  
+
         <div className="container-fluid h-100 d-flex flex-column">
           <div className="d-flex flex-column h-100">
             <div className="row justify-content-center h-100 align-content-center">
@@ -23,16 +23,18 @@ export const Page404 = () => {
                         allowFullScreen
                         className="rounded-circle"
                         title="cat"
-                      ></iframe>
+                      />
                     </div>
                     <div className="col d-flex flex-column justify-content-center">
-                      <h2 className='text-center mb-4'>Oooohps, I can't find this page</h2>
+                      <h2 className="text-center mb-4">Oooohps, I can not find this page</h2>
                       <div className="text-center mb-3">
-                        {t('loginForm.haveAccount')}{' '}
+                        {t('loginForm.haveAccount')}
+                        {' '}
                         <Link to="/login">{t('loginForm.login')}</Link>
                       </div>
                       <div className="text-center">
-                        {t('loginForm.notHaveAccount')}{' '}
+                        {t('loginForm.notHaveAccount')}
+                        {' '}
                         <Link to="/signup">{t('loginForm.registration')}</Link>
                       </div>
                     </div>
@@ -43,8 +45,10 @@ export const Page404 = () => {
           </div>
         </div>
       </div>
-  
+
       <Outlet />
     </>
-  )
-}
+  );
+};
+
+export default Page404;

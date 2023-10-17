@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import _ from "lodash";
-import { fetchMessages, selectors  } from '../slices/messagesSlice.js';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { fetchMessages, selectors } from '../slices/messagesSlice.js';
 
 class Message extends React.Component {
   constructor(props) {
@@ -16,9 +16,14 @@ class Message extends React.Component {
   }
 
   render() {
-    return <div ref={this.msgEl} key={this.props.id} className="text-break mb-2">
-      <b>{this.props.username}</b>: {this.props.message}
-    </div>
+    const { id, username, message } = this.props;
+    return (
+      <div ref={this.msgEl} key={id} className="text-break mb-2">
+        <b>{username}</b>
+        :
+        {message}
+      </div>
+    );
   }
 }
 
@@ -29,7 +34,7 @@ const Messages = () => {
   useEffect(() => {
     try {
       dispatch(fetchMessages());
-    } catch(err) {
+    } catch (err) {
       toast.error(t('networkError'), {
         position: 'top-right',
         autoClose: 5000,
@@ -44,17 +49,15 @@ const Messages = () => {
   }, [dispatch, t]);
 
   const allMessages = useSelector(selectors.selectAll);
-  const curChannel = useSelector((state) =>
-    Number(state.activeChannel.activeChannelId)
-  );
+  const curChannel = useSelector((state) => Number(state.activeChannel.activeChannelId));
 
   const [msgsCurChan, setMsgsCurChan] = useState();
 
   useEffect(() => {
-    console.log(`cur chan ${curChannel}`)
+    console.log(`cur chan ${curChannel}`);
     const allMessagesValues = Object.values(allMessages);
     const messages = allMessagesValues.filter(
-      (message) => Number(message.channelId) === Number(curChannel)
+      (message) => Number(message.channelId) === Number(curChannel),
     );
     setMsgsCurChan(messages);
   }, [curChannel, allMessages]);
@@ -68,11 +71,10 @@ const Messages = () => {
           </div>
         ))
         } */}
-      {msgsCurChan &&
-        msgsCurChan.map(({ id, message, username }) => (
-          <Message message={message} id={id} username={username} key={id}/>
-        ))
-      }
+      {msgsCurChan
+        && msgsCurChan.map(({ id, message, username }) => (
+          <Message message={message} id={id} username={username} key={id} />
+        ))}
     </div>
   );
 };
