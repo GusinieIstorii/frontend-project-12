@@ -43,7 +43,7 @@ export default {
         deleteChannel: "Удалить канал",
         sure: "Уверены?",
         renameChannel: "Переименовать канал",
-        channelDeleted: "Канал удален",
+        channelDeleted: "Канал удалëн",
         channelRenamed: "Канал переименован",
         channelAdded: "Канал создан",
         msgs: {
