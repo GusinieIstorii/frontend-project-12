@@ -8,6 +8,9 @@ import { SignUpPage } from './Pages/SignUpPage.js';
 import AuthContext from './Contexts/AuthContext.jsx';
 import { ToastContainer } from 'react-toastify';
 
+
+// eslint-disable-next-line no-unused-vars
+import i18next from './i118next.js';
 import { Provider, ErrorBoundary } from '@rollbar/react'; 
 
 
