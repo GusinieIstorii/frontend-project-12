@@ -1,12 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import socket from "../socket";
-// import ActiveChannelContext from "../Contexts/ActiveChannelContext";
 import { useTranslation } from 'react-i18next';
 import { sendMessage, getNewMessage } from '../slices/messagesSlice.js';
 import profanityFilter from '../profanityFilter.js';
-// import { faEnvelope, FontAwesomeIcon } from '@fortawesome/fontawesome-free'
-// import {  } from '@fortawesome/fontawesome-free'
 
 const NewMsgForm = () => {
   const [inputValue, setValue] = useState('');

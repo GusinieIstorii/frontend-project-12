@@ -77,7 +77,7 @@ const SignUpForm = () => {
               isInvalid={errors.username && touched.username}
               onBlur={handleBlur}
               placeholder={t('signUpForm.username')}
-                // autoFocus
+              autoFocus
               className="p-3"
             />
             <Form.Control.Feedback type="invalid" tooltip>
@@ -139,7 +139,6 @@ const SignUpForm = () => {
             <Form.Control
               type="text"
               name="auth"
-                // value={values.password}
               onChange={handleChange}
               isInvalid={authFailed}
               className="visually-hidden"

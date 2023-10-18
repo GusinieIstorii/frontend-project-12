@@ -13,7 +13,6 @@ const activeChannelSlice = createSlice({
       // eslint-disable-next-line no-param-reassign
       state.activeChannelId = action.payload;
     },
-    // removeTask: tasksAdapter.removeOne,
   },
   extraReducers: (builder) => {
     builder.addCase(channelsActions.saveNewChannel, (state, action) => {

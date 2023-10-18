@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-// import { Formik, Form, Field } from "formik";
 import Form from 'react-bootstrap/Form';
 import * as formik from 'formik';
 import * as Yup from 'yup';
@@ -16,7 +15,6 @@ const AddChanBut = () => {
   const { t } = useTranslation();
   const { Formik } = formik;
 
-  // const [authFailed, setAuthFailed] = useState(false);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -26,7 +24,6 @@ const AddChanBut = () => {
   const channelsNames = channels.map((channel) => channel.name);
 
   const submitForm = (values, { setSubmitting }) => {
-    // setAuthFailed(false);
     try {
       dispatch(addChannel({ name: values.newChannelName }));
       dispatch(getNewChannel());
@@ -35,7 +32,6 @@ const AddChanBut = () => {
       return null;
     } catch (err) {
       setSubmitting(false);
-      // setAuthFailed(true);
       return err;
     }
   };

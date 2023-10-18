@@ -10,9 +10,8 @@ import * as formik from 'formik';
 import routes from '../routes.js';
 import AuthContext from '../Contexts/AuthContext.jsx';
 
-// seems to be deleted
 const LoginSchema = Yup.object().shape({
-  username: Yup.string().required('fkfkfkf'),
+  username: Yup.string().required(),
   password: Yup.string().required(),
 });
 
@@ -98,7 +97,6 @@ const LoginForm = () => {
             <Form.Control
               type="text"
               name="auth"
-                // value={values.password}
               onChange={handleChange}
               isInvalid={authFailed}
               className="visually-hidden"
@@ -115,7 +113,5 @@ const LoginForm = () => {
     </Formik>
   );
 };
-
-// const LoginForm = () => BuildForm();
 
 export default LoginForm;

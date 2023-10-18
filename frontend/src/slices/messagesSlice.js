@@ -77,13 +77,6 @@ const messagesSlice = createSlice({
     saveNewMessage: (state, { payload }) => {
       messagesAdapter.addOne(state, payload);
     },
-    // removeMessages: (state, { payload }) => {
-    //   const channelId = payload;
-    //   const restEntities = Object.values(state.entities).filter(
-    //     (e) => e.channelId !== channelId
-    //   );
-    //   messagesAdapter.setAll(state, restEntities);
-    // },
   },
 
   extraReducers: (builder) => {
@@ -105,28 +98,3 @@ export const selectors = messagesAdapter.getSelectors(
   (state) => state.messages,
 );
 export default messagesSlice.reducer;
-
-//   // addTask: tasksAdapter.addOne,
-//   sendMessage: (state, {payload}) => {
-//     const message = payload;
-//     console.log(`message sent ${message}`);
-//     socket.timeout(5000).emit("newMessage", message, (err) => {
-//       if (err) {
-//         alert('сервер тормозит или упал :С');
-//       }
-//     });
-//   }
-
-// .addCase(getNewMessage.fulfilled, messagesAdapter.addOne);
-// .addCase(getNewMessage.fulfilled, (state, action) => {
-//   // Добавляем задачу
-//   console.log(action);
-//   // messagesAdapter.addOne(state, action.payload);
-// })
-// .addCase(removeTask.fulfilled, (state, action) => {
-//   // удаляем задачу
-//   console.log(action);
-//   tasksAdapter.removeOne(state, action);
-//   state.loadingStatus = 'idle';
-//   state.error = null;
-// });

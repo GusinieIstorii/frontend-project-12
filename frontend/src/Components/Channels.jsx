@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import ActiveChannelContext from '../Contexts/ActiveChannelContext';
 import cn from 'classnames';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-// import { Formik, Form, Field } from "formik";
 import * as formik from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -82,7 +80,6 @@ const Channels = () => {
   //  rename modal
   const [showRename, setShowRename] = useState(false);
   const handleRenameClose = () => setShowRename(false);
-  // const [authFailed, setAuthFailed] = useState(false);
 
   const handleShowRename = (e) => {
     const idChannel = e.target.getAttribute('data-channelid');
@@ -94,7 +91,6 @@ const Channels = () => {
   const channelNames = channels.map((channel) => channel.name);
 
   const submitForm = (values, { setSubmitting }) => {
-    // setAuthFailed(false);
     try {
       dispatch(
         emitRenameChan({ id: channelToEdit, name: values.channelRename }),
@@ -105,7 +101,6 @@ const Channels = () => {
       return null;
     } catch (err) {
       setSubmitting(false);
-      // setAuthFailed(true);
       return err;
     }
   };

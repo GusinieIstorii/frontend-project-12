@@ -9,7 +9,6 @@ import NewMsgForm from '../Components/NewMsgForm.jsx';
 import { selectors as selectorsChannels } from '../slices/channelsSlice.js';
 import { selectors as selectorsMessages } from '../slices/messagesSlice.js';
 import Nav from '../Components/Nav.jsx';
-// import LoginForm from '../Components/LoginForm';
 
 const ChatPage = () => {
   const navigate = useNavigate();

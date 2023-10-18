@@ -105,8 +105,6 @@ const channelsSlice = createSlice({
       console.log(payload);
       channelsAdapter.updateOne(state, payload);
     },
-    // addChannel: channelsAdapter.addOne, БЫЛО!
-    // removeTask: tasksAdapter.removeOne,
   },
   extraReducers: (builder) => { // Для реакции на действия, происходящие в других слайсах
     builder
