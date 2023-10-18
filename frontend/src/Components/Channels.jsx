@@ -102,10 +102,11 @@ const Channels = () => {
       dispatch(subRenameChan());
       handleRenameClose();
       notify(t('chat.channelRenamed'));
+      return null;
     } catch (err) {
       setSubmitting(false);
       // setAuthFailed(true);
-      throw err;
+      return err;
     }
   };
 

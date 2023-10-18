@@ -1,31 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import _ from "lodash";
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { fetchMessages, selectors } from '../slices/messagesSlice.js';
 
-class Message extends React.Component {
-  constructor(props) {
-    super(props);
-    this.msgEl = React.createRef();
-  }
+const Message = ({ id, username, message }) => {
+  const msgRef = useRef(null);
 
-  componentDidMount() {
-    (this.msgEl.current).scrollIntoView(false);
-  }
+  useEffect(() => {
+    msgRef.current.scrollIntoView({ block: 'end' });
+  }, []);
 
-  render() {
-    const { id, username, message } = this.props;
-    return (
-      <div ref={this.msgEl} key={id} className="text-break mb-2">
-        <b>{username}</b>
-        :
-        {message}
-      </div>
-    );
-  }
-}
+  return (
+    <div ref={msgRef} key={id} className="text-break mb-2">
+      <b>{username}</b>
+      :
+      {message}
+    </div>
+  );
+};
 
 const Messages = () => {
   const dispatch = useDispatch();
@@ -64,13 +57,6 @@ const Messages = () => {
 
   return (
     <div>
-      {/* {msgsCurChan &&
-        msgsCurChan.map(({ id, message, username }) => (
-          <div key={id} className="text-break mb-2">
-            <b>{username}</b>: {message}
-          </div>
-        ))
-        } */}
       {msgsCurChan
         && msgsCurChan.map(({ id, message, username }) => (
           <Message message={message} id={id} username={username} key={id} />

@@ -32,10 +32,11 @@ const AddChanBut = () => {
       dispatch(getNewChannel());
       handleClose();
       notify(t('chat.channelAdded'));
+      return null;
     } catch (err) {
       setSubmitting(false);
       // setAuthFailed(true);
-      throw err;
+      return err;
     }
   };
 
