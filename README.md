@@ -20,6 +20,4 @@ Simple and cute - authorize, send messages, add and edit channels.
 1. Enter 'make install' and 'make start' in your console
 1. Congratulations! Installation is completed.
 
-### [Visit the website!](put the link) 
-
-<iframe src="https://giphy.com/embed/4uVyQiFGLicuI" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+### [Visit the website!](put the link) <img src="https://i.giphy.com/media/4uVyQiFGLicuI/giphy.webp" width="50">
