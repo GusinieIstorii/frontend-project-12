@@ -2,13 +2,13 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import Channels from '../components/Channels.jsx';
-import Messages from '../components/Messages.jsx';
-import AddChannel from '../components/AddChannel.jsx';
-import NewMsgForm from '../components/NewMsgForm.jsx';
+import Channels from '../Сomponents/Channels.jsx';
+import Messages from '../Сomponents/Messages.jsx';
+import AddChannel from '../Сomponents/AddChannel.jsx';
+import NewMsgForm from '../Сomponents/NewMsgForm.jsx';
 import { selectors as selectorsChannels } from '../slices/channelsSlice.js';
 import { selectors as selectorsMessages } from '../slices/messagesSlice.js';
-import Nav from '../components/Nav.jsx';
+import Nav from '../Сomponents/Nav.jsx';
 
 const ChatPage = () => {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import SignUpForm from '../components/SignUpForm.jsx';
-import Nav from '../components/Nav.jsx';
+import SignUpForm from '../Сomponents/SignUpForm.jsx';
+import Nav from '../Сomponents/Nav.jsx';
 
 const SignUpPage = () => (
   <>

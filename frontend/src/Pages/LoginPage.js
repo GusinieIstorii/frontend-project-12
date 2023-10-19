@@ -1,7 +1,7 @@
 import { Link, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import LoginForm from '../components/LoginForm.jsx';
-import Nav from '../components/Nav.jsx';
+import LoginForm from '../Сomponents/LoginForm.jsx';
+import Nav from '../Сomponents/Nav.jsx';
 
 const LoginPage = () => {
   const { t } = useTranslation();

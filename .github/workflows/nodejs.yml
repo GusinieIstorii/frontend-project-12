@@ -25,11 +25,11 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install dependencies
-        run: make install
+      # - name: Install dependencies
+      #   run: make install
 
-      - name: Deploy
-        run: make deploy
+      # - name: Deploy
+      #   run: make deploy
 
       - name: Start
         run: |

@@ -1,6 +1,6 @@
 import { Link, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Nav from '../components/Nav.jsx';
+import Nav from '../Сomponents/Nav.jsx';
 
 const Page404 = () => {
   const { t } = useTranslation();
