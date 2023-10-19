@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import { Provider, ErrorBoundary } from '@rollbar/react';
 import Page404 from './pages/Page404.js';
 import LoginPage from './pages/LoginPage.js';
+// import ChatPage from './pages/ChatPage.js';
 import ChatPage from './pages/ChatPage.js';
 import SignUpPage from './pages/SignUpPage.js';
 import { AuthProvider } from './contexts/AuthContext.jsx';
@@ -17,7 +18,8 @@ import {
 import i18next from './i118next.js';
 
 const rollbarConfig = {
-  accessToken: 'a7b665e36dda4509af0a6193e4761ffa',
+  // accessToken: 'a7b665e36dda4509af0a6193e4761ffa',
+  accessToken: process.env.ROLLBAR_TOKEN,
   environment: 'testenv',
 };
 

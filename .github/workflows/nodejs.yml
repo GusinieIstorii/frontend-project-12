@@ -1,0 +1,10 @@
+# Name of workflow
+name: Node CI
+
+# Trigger the workflow on push or pull request
+on:
+  - push
+
+env:
+  CI: true
+  ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
