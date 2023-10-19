@@ -3,8 +3,35 @@ name: Node CI
 
 # Trigger the workflow on push or pull request
 on:
-  - push
+  push:
+    branches:
+      - main
 
 env:
   CI: true
   ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: make install
+
+      - name: Deploy
+        run: make deploy
+
+      - name: Start
+        run: |
+          make start
+          echo $ROLLBAR_ACCESS_TOKEN  # Пример использования секретного ключа

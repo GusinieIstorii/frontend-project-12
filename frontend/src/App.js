@@ -4,11 +4,11 @@ import React from 'react';
 // import PageOne from './Components/Pages.jsx';
 import { ToastContainer } from 'react-toastify';
 import { Provider, ErrorBoundary } from '@rollbar/react';
-import Page404 from './pages/Page404.js';
-import LoginPage from './pages/LoginPage.js';
+import Page404 from './Pages/Page404.js';
+import LoginPage from './Pages/LoginPage.js';
 // import ChatPage from './pages/ChatPage.js';
-import ChatPage from './pages/ChatPage.js';
-import SignUpPage from './pages/SignUpPage.js';
+import ChatPage from './Pages/ChatPage.js';
+import SignUpPage from './Pages/SignUpPage.js';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import {
   chatPagePath, loginPagePath, signUpPagePath, page404Path,
