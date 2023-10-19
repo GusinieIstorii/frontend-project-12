@@ -7,8 +7,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import * as formik from 'formik';
-import routes from '../routes.js';
-import AuthContext from '../Contexts/AuthContext.jsx';
+import routes from '../utils/routes.js';
+import { AuthContext } from '../contexts/AuthContext.jsx';
 
 const SignUpForm = () => {
   const { t } = useTranslation();

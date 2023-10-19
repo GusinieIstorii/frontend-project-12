@@ -8,9 +8,9 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { addChannel, getNewChannel, selectors } from '../slices/channelsSlice.js';
 import 'react-toastify/dist/ReactToastify.css';
-import notify from '../notify.js';
+import notify from '../utils/notify.js';
 
-const AddChanBut = () => {
+const AddChannel = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { Formik } = formik;
@@ -36,7 +36,7 @@ const AddChanBut = () => {
     }
   };
 
-  const LoginSchema = Yup.object().shape({
+  const AddChanSchema = Yup.object().shape({
     newChannelName: Yup.string()
       .notOneOf(channelsNames, t('chat.nameShouldBeUnique'))
       .required(t('chat.requiredFiled')),
@@ -55,7 +55,7 @@ const AddChanBut = () => {
         <Modal.Body>
           <Formik
             initialValues={{ newChannelName: '' }}
-            validationSchema={LoginSchema}
+            validationSchema={AddChanSchema}
             onSubmit={submitForm}
           >
             {({
@@ -99,4 +99,4 @@ const AddChanBut = () => {
   );
 };
 
-export default AddChanBut;
+export default AddChannel;

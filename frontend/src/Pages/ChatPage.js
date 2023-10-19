@@ -2,13 +2,13 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import Channels from '../Components/Channels.jsx';
-import Messages from '../Components/Messages.jsx';
-import AddChanBut from '../Components/AddChanBut.jsx';
-import NewMsgForm from '../Components/NewMsgForm.jsx';
+import Channels from '../components/Channels.jsx';
+import Messages from '../components/Messages.jsx';
+import AddChannel from '../components/AddChannel.jsx';
+import NewMsgForm from '../components/NewMsgForm.jsx';
 import { selectors as selectorsChannels } from '../slices/channelsSlice.js';
 import { selectors as selectorsMessages } from '../slices/messagesSlice.js';
-import Nav from '../Components/Nav.jsx';
+import Nav from '../components/Nav.jsx';
 
 const ChatPage = () => {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const ChatPage = () => {
             <div className="col-4 col-md-2 border-end px-0 bg-light d-flex flex-column h-100">
               <div className="d-flex justify-content-between mt-1 mb-2 ps-4 pe-2 p-4 align-items-center">
                 <b>{t('chat.channels')}</b>
-                <AddChanBut />
+                <AddChannel />
               </div>
               <Channels />
             </div>

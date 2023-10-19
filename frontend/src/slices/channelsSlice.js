@@ -4,9 +4,9 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-import socket from '../socket.js';
+import socket from '../utils/socket.js';
 
-import routes from '../routes.js';
+import routes from '../utils/routes.js';
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));

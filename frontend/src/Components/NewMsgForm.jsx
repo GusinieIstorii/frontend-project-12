@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { sendMessage, getNewMessage } from '../slices/messagesSlice.js';
-import profanityFilter from '../profanityFilter.js';
+import profanityFilter from '../utils/profanityFilter.js';
 
 const NewMsgForm = () => {
   const [inputValue, setValue] = useState('');

@@ -4,8 +4,8 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-import routes from '../routes.js';
-import socket from '../socket.js';
+import routes from '../utils/routes.js';
+import socket from '../utils/socket.js';
 import { actions as channelsActions } from './channelsSlice.js';
 
 const getAuthHeader = () => {

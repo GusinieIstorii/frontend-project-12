@@ -17,7 +17,7 @@ import {
   subRenameChan,
   fetchChannels, selectors,
 } from '../slices/channelsSlice.js';
-import notify from '../notify.js';
+import notify from '../utils/notify.js';
 import 'react-toastify/dist/ReactToastify.css';
 import { changeActiveChannel } from '../slices/activeChannelSlice.js';
 
