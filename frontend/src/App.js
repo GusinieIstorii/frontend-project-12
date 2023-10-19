@@ -9,7 +9,7 @@ import LoginPage from './Pages/LoginPage.js';
 // import ChatPage from './pages/ChatPage.js';
 import ChatPage from './Pages/ChatPage.js';
 import SignUpPage from './Pages/SignUpPage.js';
-import { AuthProvider } from './contexts/AuthContext.jsx';
+import { AuthProvider } from './Contexts/AuthContext.jsx';
 import {
   chatPagePath, loginPagePath, signUpPagePath, page404Path,
 } from './utils/paths.js';

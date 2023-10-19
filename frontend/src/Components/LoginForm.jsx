@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import * as formik from 'formik';
 import routes from '../utils/routes.js';
-import { AuthContext } from '../contexts/AuthContext.jsx';
+import { AuthContext } from '../Contexts/AuthContext.jsx';
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string().required(),
