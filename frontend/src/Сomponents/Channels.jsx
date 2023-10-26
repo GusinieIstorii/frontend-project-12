@@ -118,6 +118,7 @@ const Channels = () => {
   const renderChannels = (channelsToRender) => channelsToRender.map((channel) => (
     <Channel
       channel={channel}
+      key={channel.id}
       activeChannel={activeChannel}
       handleChannel={handleChannel}
       handleShowDelete={handleShowDelete}
