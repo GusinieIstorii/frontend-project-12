@@ -1,12 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-// import React, { useState, useEffect } from 'react';
 import React from 'react';
-// import PageOne from './Components/Pages.jsx';
 import { ToastContainer } from 'react-toastify';
 import { Provider, ErrorBoundary } from '@rollbar/react';
 import Page404 from './Pages/Page404.js';
 import LoginPage from './Pages/LoginPage.js';
-// import ChatPage from './pages/ChatPage.js';
 import ChatPage from './Pages/ChatPage.js';
 import SignUpPage from './Pages/SignUpPage.js';
 import { AuthProvider } from './Contexts/AuthContext.jsx';
@@ -18,7 +15,6 @@ import {
 import i18next from './i118next.js';
 
 const rollbarConfig = {
-  // accessToken: 'a7b665e36dda4509af0a6193e4761ffa',
   accessToken: process.env.ROLLBAR_TOKEN,
   environment: 'testenv',
 };

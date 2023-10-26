@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { fetchMessages, selectors } from '../slices/messagesSlice.js';
+import notify from '../utils/notify.js';
 
 const Message = ({ id, username, message }) => {
   const msgRef = useRef(null);
@@ -28,16 +28,7 @@ const Messages = () => {
     try {
       dispatch(fetchMessages());
     } catch (err) {
-      toast.error(t('networkError'), {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      notify(t('networkError'));
     }
   }, [dispatch, t]);
 

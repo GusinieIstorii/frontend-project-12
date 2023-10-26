@@ -29,6 +29,7 @@ const SignUpForm = () => {
 
   const { logIn } = useContext(AuthContext);
   const [authFailed, setAuthFailed] = useState(false);
+  const [authFeedback, setAuthFeedback] = useState('');
   const navigate = useNavigate();
 
   const submitForm = async (values, { setSubmitting }) => {
@@ -42,6 +43,11 @@ const SignUpForm = () => {
       logIn();
       navigate('/');
     } catch (err) {
+      if (err.response.status === 409) {
+        setAuthFeedback(t('signUpForm.userExists'));
+      } else {
+        setAuthFeedback('unknown error');
+      }
       setSubmitting(false);
       setAuthFailed(true);
       throw err;
@@ -144,7 +150,7 @@ const SignUpForm = () => {
               className="visually-hidden"
             />
             <Form.Control.Feedback type="invalid" tooltip>
-              {t('signUpForm.userExists')}
+              {authFeedback}
             </Form.Control.Feedback>
           </Form.Group>
 

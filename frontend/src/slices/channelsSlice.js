@@ -4,10 +4,12 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-import socket from '../utils/socket.js';
-
+// import socket from '../utils/socket.js';
+import { useContext } from 'react';
+import { AuthContext } from '../Contexts/AuthContext.jsx';
 import routes from '../utils/routes.js';
 
+const { socket } = useContext(AuthContext);
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
   if (userId && userId.token) {

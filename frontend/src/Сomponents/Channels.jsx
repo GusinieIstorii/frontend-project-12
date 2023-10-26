@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import cn from 'classnames';
 import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import * as formik from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import Channel from './Channel.jsx';
 import {
   emitRemoveChan,
   subRemoveChan,
@@ -26,21 +25,26 @@ const Channels = () => {
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
       dispatch(fetchChannels());
     } catch (err) {
-      toast.error(t('networkError'), {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      if (err.response.status === 401) {
+        navigate('/login');
+      } else {
+        toast.error(t('networkError'), {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      }
     }
   }, [dispatch, t]);
 
@@ -111,45 +115,14 @@ const Channels = () => {
       .required(t('chat.requiredFiled')),
   });
 
-  const renderDropdown = (id) => (
-    <>
-      <Dropdown.Toggle
-        split
-        id="Управление каналом"
-        className="btn-secondary btn-light"
-        data-text="Управление каналом"
-      >
-        <div className="visually-hidden">Управление каналом</div>
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={handleShowDelete} data-channelid={id}>
-          {t('chat.delete')}
-        </Dropdown.Item>
-        <Dropdown.Item onClick={handleShowRename} data-channelid={id}>
-          {t('chat.rename')}
-        </Dropdown.Item>
-      </Dropdown.Menu>
-    </>
-  );
-
-  const renderChannels = (channelsToRender) => channelsToRender.map(({ id, name, removable }) => (
-    <li className="nav-item" key={id}>
-      <Dropdown as={ButtonGroup} key={id} className="w-100">
-        <Button
-          className={cn('w-100 rounded-0 text-start btn text-start text-truncate', {
-            'btn-secondary': Number(id) === Number(activeChannel),
-            'btn-light': Number(id) !== Number(activeChannel),
-          })}
-          onClick={handleChannel}
-          data-channelid={id}
-        >
-          <span className="me-1">#</span>
-          {name}
-        </Button>
-        {removable && renderDropdown(id)}
-      </Dropdown>
-    </li>
+  const renderChannels = (channelsToRender) => channelsToRender.map((channel) => (
+    <Channel
+      channel={channel}
+      activeChannel={activeChannel}
+      handleChannel={handleChannel}
+      handleShowDelete={handleShowDelete}
+      handleShowRename={handleShowRename}
+    />
   ));
 
   return (

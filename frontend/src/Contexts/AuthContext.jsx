@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import io from 'socket.io-client';
 
 const AuthContext = createContext({});
 
@@ -21,9 +22,14 @@ const AuthProvider = ({ children }) => {
     }
   }, [userId]);
 
+  const socket = io();
+
   return (
   // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <AuthContext.Provider value={{
+      loggedIn, logIn, logOut, socket,
+    }}
+    >
       {children}
     </AuthContext.Provider>
   );
