@@ -31,7 +31,7 @@ jobs:
       # - name: Deploy
       #   run: make deploy
 
-      - name: Start
-        run: |
-          make start
-          echo $ROLLBAR_ACCESS_TOKEN  # Пример использования секретного ключа
+      # - name: Start
+      #   run: |
+      #     make start
+      #     echo $ROLLBAR_ACCESS_TOKEN  # Пример использования секретного ключа
