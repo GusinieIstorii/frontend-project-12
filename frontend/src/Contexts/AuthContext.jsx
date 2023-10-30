@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext({});
 
-const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children, socket }) => {
   const [loggedIn, setLoggedIn] = useState();
 
   const logIn = () => setLoggedIn(true);
@@ -27,7 +27,7 @@ const AuthProvider = ({ children }) => {
   return (
   // eslint-disable-next-line react/jsx-no-constructed-context-values
     <AuthContext.Provider value={{
-      loggedIn, logIn, logOut,
+      loggedIn, logIn, logOut, socket,
     }}
     >
       {children}
