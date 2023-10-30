@@ -1,8 +1,8 @@
-install:
-	npm сi
+lint-frontend:
+	make -C frontend lint
 
-build:
-	npm i & npm run build
+install:
+	npm ci
 
 start-frontend:
 	make -C frontend start
