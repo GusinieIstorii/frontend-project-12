@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import * as formik from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
-import { addChannel, getNewChannel, selectors } from '../slices/channelsSlice.js';
+import { selectors } from '../slices/channelsSlice.js';
 import 'react-toastify/dist/ReactToastify.css';
 import notify from '../utils/notify.js';
 
 const AddChannel = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { t } = useTranslation();
   const { Formik } = formik;
 
@@ -25,8 +27,8 @@ const AddChannel = () => {
 
   const submitForm = (values, { setSubmitting }) => {
     try {
-      dispatch(addChannel({ name: values.newChannelName }));
-      dispatch(getNewChannel());
+      // dispatch(addChannel({ name: values.newChannelName }));
+      // dispatch(getNewChannel());
       handleClose();
       notify(t('chat.channelAdded'));
       return null;

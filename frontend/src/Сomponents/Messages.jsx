@@ -1,7 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState, useEffect, useRef, useContext,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { fetchMessages, selectors } from '../slices/messagesSlice.js';
+import { AuthContext } from '../Contexts/AuthContext.jsx';
 import notify from '../utils/notify.js';
 
 const Message = ({ id, username, message }) => {
@@ -23,8 +26,10 @@ const Message = ({ id, username, message }) => {
 const Messages = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { startListening } = useContext(AuthContext);
 
   useEffect(() => {
+    dispatch(startListening());
     try {
       dispatch(fetchMessages());
     } catch (err) {

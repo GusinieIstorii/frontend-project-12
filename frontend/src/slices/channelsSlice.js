@@ -4,7 +4,7 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-import socket from '../utils/socket.js';
+// import socket from '../utils/socket.js';
 // import { useContext } from 'react';
 // import { AuthContext } from '../Contexts/AuthContext.jsx';
 import routes from '../utils/routes.js';
@@ -30,65 +30,66 @@ export const fetchChannels = createAsyncThunk(
   },
 );
 
-export const addChannel = createAsyncThunk(
-  'channels/addChannel',
-  async (channel) => {
-    await socket.timeout(5000).emit('newChannel', channel, (err) => {
-      if (err) {
-        console.log('сервер тормозит или упал :С');
-      }
-    });
-  },
-);
+// export const addChannel = createAsyncThunk(
+//   'channels/addChannel',
+//   async (channel) => {
+//     await socket.timeout(5000).emit('newChannel', channel, (err) => {
+//       if (err) {
+//         console.log('сервер тормозит или упал :С');
+//       }
+//     });
+//   },
+// );
 
-export const getNewChannel = createAsyncThunk(
-  'channels/getNewChannel',
-  async (_, { dispatch }) => {
-    await socket.on('newChannel', (channeleWithId) => {
-      dispatch({ type: 'channels/saveNewChannel', payload: channeleWithId });
-    });
-  },
-);
+// export const getNewChannel = createAsyncThunk(
+//   'channels/getNewChannel',
+//   async (_, { dispatch }) => {
+//     await socket.on('newChannel', (channeleWithId) => {
+//       dispatch({ type: 'channels/saveNewChannel', payload: channeleWithId });
+//     });
+//   },
+// );
 
-export const emitRemoveChan = createAsyncThunk(
-  'channels/emitRemoveChan',
-  async (channel) => {
-    await socket.timeout(5000).emit('removeChannel', channel, (err) => {
-      if (err) {
-        console.log('сервер тормозит или упал :С');
-      }
-    });
-  },
-);
+// export const emitRemoveChan = createAsyncThunk(
+//   'channels/emitRemoveChan',
+//   async (channel) => {
+//     await socket.timeout(5000).emit('removeChannel', channel, (err) => {
+//       if (err) {
+//         console.log('сервер тормозит или упал :С');
+//       }
+//     });
+//   },
+// );
 
-export const subRemoveChan = createAsyncThunk(
-  'channels/subRemoveChan',
-  async (_, { dispatch }) => {
-    await socket.on('removeChannel', (channel) => {
-      dispatch({ type: 'channels/removeChannel', payload: channel.id });
-    });
-  },
-);
+// export const subRemoveChan = createAsyncThunk(
+//   'channels/subRemoveChan',
+//   async (_, { dispatch }) => {
+//     await socket.on('removeChannel', (channel) => {
+//       dispatch({ type: 'channels/removeChannel', payload: channel.id });
+//     });
+//   },
+// );
 
-export const emitRenameChan = createAsyncThunk(
-  'channels/emitRenameChan',
-  async (channel) => {
-    await socket.timeout(5000).emit('renameChannel', channel, (err) => {
-      if (err) {
-        console.log('сервер тормозит или упал :С');
-      }
-    });
-  },
-);
+// export const emitRenameChan = createAsyncThunk(
+//   'channels/emitRenameChan',
+//   async (channel) => {
+//     await socket.timeout(5000).emit('renameChannel', channel, (err) => {
+//       if (err) {
+//         console.log('сервер тормозит или упал :С');
+//       }
+//     });
+//   },
+// );
 
-export const subRenameChan = createAsyncThunk(
-  'channels/subRenameChan',
-  async (_, { dispatch }) => {
-    await socket.on('renameChannel', (channelWithNewName) => {
-      dispatch({ type: 'channels/renameChannel', payload: { id: channelWithNewName.id, changes: channelWithNewName } });
-    });
-  },
-);
+// export const subRenameChan = createAsyncThunk(
+//   'channels/subRenameChan',
+//   async (_, { dispatch }) => {
+//     await socket.on('renameChannel', (channelWithNewName) => {
+//       dispatch({ type: 'channels/renameChannel', payload:
+// { id: channelWithNewName.id, changes: channelWithNewName } });
+//     });
+//   },
+// );
 
 const channelsAdapter = createEntityAdapter();
 // набор готовых редьюсеров и селекторов для основных операций над сущностями

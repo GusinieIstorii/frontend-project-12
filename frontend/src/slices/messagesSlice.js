@@ -4,10 +4,7 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-// import { useContext } from 'react';
 import routes from '../utils/routes.js';
-import socket from '../utils/socket.js';
-// import { AuthContext } from '../Contexts/AuthContext.jsx';
 import { actions as channelsActions } from './channelsSlice.js';
 
 const getAuthHeader = () => {
@@ -30,26 +27,6 @@ export const fetchMessages = createAsyncThunk(
   },
 );
 
-export const sendMessage = createAsyncThunk(
-  'messages/sendMessage',
-  async (message) => {
-    await socket.timeout(5000).emit('newMessage', message, (err) => {
-      if (err) {
-        console.log('сервер тормозит или упал :С');
-      }
-    });
-  },
-);
-
-export const getNewMessage = createAsyncThunk(
-  'messages/getNewMessage',
-  async (_, { dispatch }) => {
-    await socket.on('newMessage', (messageWithId) => {
-      dispatch({ type: 'messages/saveNewMessage', payload: messageWithId });
-    });
-  },
-);
-
 const messagesAdapter = createEntityAdapter();
 // набор готовых редьюсеров и селекторов для основных операций над сущностями
 
@@ -60,23 +37,7 @@ const messagesSlice = createSlice({
     error: null,
   }), // По умолчанию: { ids: [], entities: {} }
   reducers: {
-    // почему при таком варианте вылетает ошибка?
-    // Cannot perform 'get' on a proxy that has been revoked
-    // sendMessage: (state, { payload }) => {
-    //   const message = payload;
-    //   socket.timeout(5000).emit("newMessage", message, (err) => {
-    //     if (err) {
-    //       alert("сервер тормозит или упал :С");
-    //     }
-    //   });
-    //   socket.on("newMessage", (messageWithId) => {
-    //     console.log("i received message");
-    //     console.log(messageWithId);
-    // {message: 'test8', username: 'admin', channelId: '43', id: 53}
-    //     messagesAdapter.addOne(state, messageWithId);
-    //   });
-    // },
-    saveNewMessage: (state, { payload }) => {
+    RECEIVE_MESSAGE: (state, { payload }) => {
       messagesAdapter.addOne(state, payload);
     },
   },

@@ -1,10 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {
+  useState, useRef, useEffect, useContext,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { sendMessage, getNewMessage } from '../slices/messagesSlice.js';
+import { AuthContext } from '../Contexts/AuthContext.jsx';
 import profanityFilter from '../utils/profanityFilter.js';
 
 const NewMsgForm = () => {
+  const { sendMessage } = useContext(AuthContext);
   const [inputValue, setValue] = useState('');
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -29,7 +32,6 @@ const NewMsgForm = () => {
     dispatch(
       sendMessage({ message: value, username, channelId: initialActiveChannel }),
     );
-    dispatch(getNewMessage());
     inputEl.current.readOnly = false;
     submitEl.current.disabled = false;
     setValue('');

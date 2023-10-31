@@ -9,11 +9,14 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import Channel from './Channel.jsx';
+// import {
+//   emitRemoveChan,
+//   subRemoveChan,
+//   emitRenameChan,
+//   subRenameChan,
+//   fetchChannels, selectors,
+// } from '../slices/channelsSlice.js';
 import {
-  emitRemoveChan,
-  subRemoveChan,
-  emitRenameChan,
-  subRenameChan,
   fetchChannels, selectors,
 } from '../slices/channelsSlice.js';
 import notify from '../utils/notify.js';
@@ -72,8 +75,8 @@ const Channels = () => {
   };
 
   const removeChannel = () => {
-    dispatch(emitRemoveChan({ id: channelToEdit }));
-    dispatch(subRemoveChan());
+    // dispatch(emitRemoveChan({ id: channelToEdit }));
+    // dispatch(subRemoveChan());
     if (Number(activeChannel) === Number(channelToEdit)) {
       dispatch(changeActiveChannel(1));
     }
@@ -96,10 +99,10 @@ const Channels = () => {
 
   const submitForm = (values, { setSubmitting }) => {
     try {
-      dispatch(
-        emitRenameChan({ id: channelToEdit, name: values.channelRename }),
-      );
-      dispatch(subRenameChan());
+      // dispatch(
+      // emitRenameChan({ id: channelToEdit, name: values.channelRename }),
+      // );
+      // dispatch(subRenameChan());
       handleRenameClose();
       notify(t('chat.channelRenamed'));
       return null;
