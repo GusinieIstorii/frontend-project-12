@@ -20,4 +20,4 @@ Simple and cute - authorize, send messages, add and edit channels.
 1. Enter 'make install' and 'make start' in your console
 1. Congratulations! Installation is completed.
 
-### [Visit the website!](put the link) <img src="https://i.giphy.com/media/4uVyQiFGLicuI/giphy.webp" width="50">
+### [Visit the website!](https://app-5clu.onrender.com/) <img src="https://i.giphy.com/media/4uVyQiFGLicuI/giphy.webp" width="50">
