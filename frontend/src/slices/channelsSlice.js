@@ -98,15 +98,16 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState: channelsAdapter.getInitialState({ loadingStatus: 'idle', error: null }), // По умолчанию: { ids: [], entities: {} }
   reducers: {
-    saveNewChannel: (state, { payload }) => {
+    RECEIVE_CHANNEL: (state, { payload }) => {
       channelsAdapter.addOne(state, payload);
     },
-    removeChannel: (state, { payload }) => {
-      channelsAdapter.removeOne(state, payload);
-    },
-    renameChannel: (state, { payload }) => {
+    RECEIVE_REMOVED_CHANNEL: (state, { payload }) => {
       console.log(payload);
-      channelsAdapter.updateOne(state, payload);
+      channelsAdapter.removeOne(state, payload.id);
+    },
+    RECEIVE_RENAMED_CHANNEL: (state, { payload }) => {
+      // eslint-disable-next-line no-param-reassign
+      state.entities[payload.id].name = payload.name;
     },
   },
   extraReducers: (builder) => { // Для реакции на действия, происходящие в других слайсах

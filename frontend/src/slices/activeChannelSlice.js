@@ -15,8 +15,7 @@ const activeChannelSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(channelsActions.saveNewChannel, (state, action) => {
-      console.log(action);
+    builder.addCase(channelsActions.RECEIVE_CHANNEL, (state, action) => {
       const newIdActiveChan = action.payload.id;
       // eslint-disable-next-line no-param-reassign
       state.activeChannelId = newIdActiveChan;

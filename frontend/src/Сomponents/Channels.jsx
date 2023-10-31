@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
@@ -9,13 +9,7 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import Channel from './Channel.jsx';
-// import {
-//   emitRemoveChan,
-//   subRemoveChan,
-//   emitRenameChan,
-//   subRenameChan,
-//   fetchChannels, selectors,
-// } from '../slices/channelsSlice.js';
+import { AuthContext } from '../Contexts/AuthContext.jsx';
 import {
   fetchChannels, selectors,
 } from '../slices/channelsSlice.js';
@@ -29,8 +23,10 @@ const Channels = () => {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { startListening, removeChannel, renameChannel } = useContext(AuthContext);
 
   useEffect(() => {
+    dispatch(startListening());
     try {
       dispatch(fetchChannels());
     } catch (err) {
@@ -74,8 +70,8 @@ const Channels = () => {
     setShowDelete(true);
   };
 
-  const removeChannel = () => {
-    // dispatch(emitRemoveChan({ id: channelToEdit }));
+  const handleRemoveChannel = () => {
+    removeChannel({ id: channelToEdit });
     // dispatch(subRemoveChan());
     if (Number(activeChannel) === Number(channelToEdit)) {
       dispatch(changeActiveChannel(1));
@@ -103,6 +99,7 @@ const Channels = () => {
       // emitRenameChan({ id: channelToEdit, name: values.channelRename }),
       // );
       // dispatch(subRenameChan());
+      renameChannel({ id: channelToEdit, name: values.channelRename });
       handleRenameClose();
       notify(t('chat.channelRenamed'));
       return null;
@@ -150,7 +147,7 @@ const Channels = () => {
               >
                 {t('chat.cancel')}
               </Button>
-              <Button variant="danger" onClick={removeChannel}>
+              <Button variant="danger" onClick={handleRemoveChannel}>
                 {t('chat.delete')}
               </Button>
             </div>

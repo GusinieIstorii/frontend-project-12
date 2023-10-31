@@ -22,25 +22,48 @@ const AuthProvider = ({ children, socket }) => {
     }
   }, [userId]);
 
-  const CONNECT_SOCKET = 'messages/CONNECT_SOCKET';
-  const DISCONNECT_SOCKET = 'messages/DISCONNECT_SOCKET';
-  const RECEIVE_MESSAGE = 'messages/RECEIVE_MESSAGE';
-
   const connectSocket = () => ({
-    type: CONNECT_SOCKET,
+    type: 'CONNECT_SOCKET',
   });
 
   const disconnectSocket = () => ({
-    type: DISCONNECT_SOCKET,
+    type: 'DISCONNECT_SOCKET',
   });
 
   const receiveMessage = (message) => ({
-    type: RECEIVE_MESSAGE,
+    type: 'messages/RECEIVE_MESSAGE',
     payload: message,
   });
 
   const sendMessage = (message) => () => {
     socket.emit('newMessage', message);
+  };
+
+  const receiveChannel = (channel) => ({
+    type: 'channels/RECEIVE_CHANNEL',
+    payload: channel,
+  });
+
+  const addChannel = (channel) => {
+    socket.emit('newChannel', channel);
+  };
+
+  const receiveRemovedChannel = (channel) => ({
+    type: 'channels/RECEIVE_REMOVED_CHANNEL',
+    payload: channel,
+  });
+
+  const removeChannel = (channel) => {
+    socket.emit('removeChannel', channel);
+  };
+
+  const receiveRenamedChannel = (channel) => ({
+    type: 'channels/RECEIVE_RENAMED_CHANNEL',
+    payload: channel,
+  });
+
+  const renameChannel = (channel) => {
+    socket.emit('renameChannel', channel);
   };
 
   const startListening = () => (dispatch) => {
@@ -54,6 +77,18 @@ const AuthProvider = ({ children, socket }) => {
       dispatch(receiveMessage(data));
     });
 
+    socket.on('newChannel', (data) => {
+      dispatch(receiveChannel(data));
+    });
+
+    socket.on('removeChannel', (data) => {
+      dispatch(receiveRemovedChannel(data));
+    });
+
+    socket.on('renameChannel', (data) => {
+      dispatch(receiveRenamedChannel(data));
+    });
+
     socket.on('disconnect', () => {
       dispatch(disconnectSocket());
       console.log('Соединение закрыто');
@@ -65,7 +100,14 @@ const AuthProvider = ({ children, socket }) => {
   return (
   // eslint-disable-next-line react/jsx-no-constructed-context-values
     <AuthContext.Provider value={{
-      loggedIn, logIn, logOut, startListening, sendMessage, receiveMessage,
+      loggedIn,
+      logIn,
+      logOut,
+      startListening,
+      sendMessage,
+      addChannel,
+      removeChannel,
+      renameChannel,
     }}
     >
       {children}

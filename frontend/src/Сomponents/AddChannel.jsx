@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useContext } from 'react';
 import { useSelector } from 'react-redux';
 
 import Button from 'react-bootstrap/Button';
@@ -11,9 +10,11 @@ import { useTranslation } from 'react-i18next';
 import { selectors } from '../slices/channelsSlice.js';
 import 'react-toastify/dist/ReactToastify.css';
 import notify from '../utils/notify.js';
+import { AuthContext } from '../Contexts/AuthContext.jsx';
 
 const AddChannel = () => {
   // const dispatch = useDispatch();
+  const { addChannel } = useContext(AuthContext);
   const { t } = useTranslation();
   const { Formik } = formik;
 
@@ -25,17 +26,12 @@ const AddChannel = () => {
   const channels = useSelector(selectors.selectAll);
   const channelsNames = channels.map((channel) => channel.name);
 
-  const submitForm = (values, { setSubmitting }) => {
-    try {
-      // dispatch(addChannel({ name: values.newChannelName }));
-      // dispatch(getNewChannel());
-      handleClose();
-      notify(t('chat.channelAdded'));
-      return null;
-    } catch (err) {
-      setSubmitting(false);
-      return err;
-    }
+  const submitForm = (values) => {
+    handleClose();
+    notify(t('chat.channelAdded'));
+    // dispatch(addChannel({ name: values.newChannelName }));
+    addChannel({ name: values.newChannelName });
+    return null;
   };
 
   const AddChanSchema = Yup.object().shape({

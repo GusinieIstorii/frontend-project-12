@@ -45,7 +45,7 @@ const messagesSlice = createSlice({
   extraReducers: (builder) => {
     // Для реакции на действия, происходящие в других слайсах
     builder.addCase(fetchMessages.fulfilled, messagesAdapter.addMany)
-      .addCase(channelsActions.removeChannel, (state, { payload }) => {
+      .addCase(channelsActions.RECEIVE_REMOVED_CHANNEL, (state, { payload }) => {
         console.log(`extra reducer ${payload}`);
         const channelId = payload;
         const restEntities = Object.values(state.entities).filter(
