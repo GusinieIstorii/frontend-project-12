@@ -10,11 +10,11 @@ import { useTranslation } from 'react-i18next';
 import { selectors } from '../slices/channelsSlice.js';
 import 'react-toastify/dist/ReactToastify.css';
 import notify from '../utils/notify.js';
-import { AuthContext } from '../Contexts/AuthContext.jsx';
+import { ChatContext } from '../Contexts/ChatContext.jsx';
 
 const AddChannel = () => {
   // const dispatch = useDispatch();
-  const { addChannel } = useContext(AuthContext);
+  const { addChannel } = useContext(ChatContext);
   const { t } = useTranslation();
   const { Formik } = formik;
 

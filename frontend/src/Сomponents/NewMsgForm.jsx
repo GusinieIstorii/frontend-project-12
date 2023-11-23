@@ -3,11 +3,11 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { AuthContext } from '../Contexts/AuthContext.jsx';
+import { ChatContext } from '../Contexts/ChatContext.jsx';
 import profanityFilter from '../utils/profanityFilter.js';
 
 const NewMsgForm = () => {
-  const { sendMessage } = useContext(AuthContext);
+  const { sendMessage } = useContext(ChatContext);
   const [inputValue, setValue] = useState('');
   const { t } = useTranslation();
   const dispatch = useDispatch();
