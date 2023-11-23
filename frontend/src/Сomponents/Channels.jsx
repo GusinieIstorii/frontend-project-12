@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import Channel from './Channel.jsx';
-import { AuthContext } from '../Contexts/AuthContext.jsx';
+import { ChatContext } from '../Contexts/ChatContext.jsx';
 import {
   fetchChannels, selectors,
 } from '../slices/channelsSlice.js';
@@ -23,7 +23,7 @@ const Channels = () => {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { startListening, removeChannel, renameChannel } = useContext(AuthContext);
+  const { startListening, removeChannel, renameChannel } = useContext(ChatContext);
 
   useEffect(() => {
     dispatch(startListening());

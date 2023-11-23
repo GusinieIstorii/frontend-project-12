@@ -4,7 +4,7 @@ import React, {
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { fetchMessages, selectors } from '../slices/messagesSlice.js';
-import { AuthContext } from '../Contexts/AuthContext.jsx';
+import { ChatContext } from '../Contexts/ChatContext.jsx';
 import notify from '../utils/notify.js';
 
 const Message = ({ id, username, message }) => {
@@ -26,7 +26,7 @@ const Message = ({ id, username, message }) => {
 const Messages = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { startListening } = useContext(AuthContext);
+  const { startListening } = useContext(ChatContext);
 
   useEffect(() => {
     dispatch(startListening());

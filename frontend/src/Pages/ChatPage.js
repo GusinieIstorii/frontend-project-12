@@ -9,6 +9,7 @@ import NewMsgForm from '../Сomponents/NewMsgForm.jsx';
 import { selectors as selectorsChannels } from '../slices/channelsSlice.js';
 import { selectors as selectorsMessages } from '../slices/messagesSlice.js';
 import Nav from '../Сomponents/Nav.jsx';
+import { loginPagePath } from '../utils/paths.js';
 
 const ChatPage = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const ChatPage = () => {
     const userId = JSON.parse(localStorage.getItem('userId'));
     console.log(userId);
     if (!userId) {
-      navigate('/login');
+      navigate(loginPagePath);
     }
   }, [navigate]);
 
